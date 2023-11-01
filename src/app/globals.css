@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/*------------SIDEBAR---------- */
+.sidebar__active{
+    color: #2565e6;
+    font-weight: 500;
+    background-color: #F9FAFC;
+}
