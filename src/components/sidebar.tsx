@@ -12,8 +12,11 @@ export default function Sidebar() {
   return (
     <div id="sidebar" className="fixed shadow-lg top-0 bottom-0 w-[20%] z-50 ">
       <div className="flex relative px-3 sticky top-0 bg-white z-50">
-        <h3 className="text-[#5d596c] text-[22px] font-semibold p-4 mt-2 mb-4">
-            <span className="text-[#2565e6] mr-3 text-[20px] font-semibold">tt</span>
+        <h3 className="text-[#5d596c] flex itemsc-center text-[22px] font-semibold p-4 mt-2 mb-4">
+          {/* LOGO */}
+            <span className="LOGO"></span>
+            {/* <span className="LOGO2"></span> */}
+            <span className="-ml-[27px] text-[#2565e6] mr-3 text-[22px] font-semibold">tt</span>
           task<span className="">track</span>
         </h3>
           </div>
@@ -28,7 +31,7 @@ export default function Sidebar() {
               
               <ul className="menu menu-md w-full mt-4">
               <h5 className='text-[11px] mb-0 font-semibold text-[#90A5BA] ml-[15px]'>MENU</h5>
-          {/* Basic dashboard items */}
+          {/* Basic Sidebar items */}
                 <li className={`mt-4 px-3 py-2 rounded-md ${
                       getPath == "dashboard" ? "sidebar__active" : ""
                     }`}>
@@ -72,22 +75,13 @@ export default function Sidebar() {
                     My Team
                   </Link>
                 </li>
-                {/* <li>
-                  <Link
-                    href="/dashboard/crm"
-                    className={`text-[18px] ${
-                      getPath == "crm" ? "sidebar__active" : ""
-                    }`}
-                  >
-                    CRM
-                  </Link>
-          </li> */}
         </ul>
 
 
         {/*---------------NAVBAR BOTTOM--------- */}
         <ul className="ml-3">
-        <li className={`mt-1 px-3 py-2  rounded ${
+          <hr />
+        <li className={`mt-4 px-3 py-2  rounded ${
                       getPath == "settings" ? "sidebar__active" : ""
                     }`}>
                   <Link
@@ -105,9 +99,6 @@ export default function Sidebar() {
                 </li>
         </ul>
       </nav>
-
-
-      {/* NAVBAR BOTTOM */}
       <div>
       </div>
     </div>

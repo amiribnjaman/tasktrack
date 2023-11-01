@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Sidebar from "@/components/sidebar";
 import TopNavbar from "@/components/topNavbar";
+import FilterSidebar from '@/components/filterSidebar';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,15 +25,20 @@ export default function RootLayout({
         <Sidebar />
       </aside>
 
-      <div className="bg-[#F8F7FA] w-[80%] h-full">
+      <div className="bg-[#F8F7FA] w-[80%] h-full -z-50">
         <div className="px-6 relative">
           {/* Top Navbar  */}
           <TopNavbar />
-          <div className="pt-4">
+              <div className='flex justify-between'>
+              <div className="pt-4">
           {children}
           </div>
-          {/* Footer */}
-          {/* <Footer /> */}
+
+              {/*---------RIGHT SIDE FILTER BAR---------- */}
+              <aside className='w-[33%] mt-4 mb-8 shadow'>
+                <FilterSidebar />
+          </aside>
+          </div>
         </div>
       </div>
     </div>
