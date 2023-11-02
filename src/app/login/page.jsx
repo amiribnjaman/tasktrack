@@ -25,8 +25,8 @@ export default function page() {
             </button>
 
             <p className="text-[12px] m-0">
-              Haven't account?{" "}
-              <Link href="/signup" className="text-green-700">
+              Haven't account?
+              <Link href="/signup" className="text-green-700 ml-1">
                 Signup
               </Link>
             </p>
