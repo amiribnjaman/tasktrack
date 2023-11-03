@@ -1,37 +1,102 @@
+"use client";
+
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 export default function page() {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm();
+
+  // Custom id for tostify
+  const customId = "custom-id-yes";
+
+  // Handle create task
+  const handleCreateTask = (data) => {
+    if (data) {
+      fetch("http://localhost:4000/api/task", {
+        method: "POST",
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("Token"),
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status == "201") {
+            toast.success("A Task created succefully!");
+          } else {
+            toast.error(data.msg);
+          }
+        });
+    }
+
+    reset();
+  };
+
   return (
     <div className="mt-10">
       <div className="flex justify-center items-center">
         <div className="w-[80%] shadow-md border px-3 py-3 text-center">
           <h3 className="text-xl font-semibold">Create a new Task</h3>
-          <div className="my-3 flex flex-col gap-2">
+          <form
+            onSubmit={handleSubmit(handleCreateTask)}
+            className="my-3 flex flex-col gap-2"
+          >
             <input
+              {...register("taskTitle", { required: true })}
               type="text"
               placeholder="Task name"
               className="px-2 pl-4 py-2 rounded-full"
             />
+            <p className="hidden">
+              {errors?.taskTitle &&
+                toast.error("Taks Name is required", { toastId: customId })}
+            </p>
+
             <input
+              {...register("completion", { required: true })}
               type="text"
               placeholder="Completion (%)"
               className="px-2 pl-4 py-2 rounded-full"
             />
+            <p className="hidden">
+              {errors?.completion &&
+                toast.error("Completion is required", { toastId: customId })}
+            </p>
+
             <div className="flex justify-between">
               <input
+                {...register("teamLeader", { required: true })}
                 type="text"
                 placeholder="Team Leader"
                 className="px-2 pl-4 py-2 rounded-full"
               />
+              <p className="hidden">
+                {errors?.teamLeader &&
+                  toast.error("Completion is required", { toastId: customId })}
+              </p>
+
               <input
+                {...register("teamMemberNum", { required: true })}
                 type="number"
                 placeholder="Total Member"
                 className="px-2 pl-4 py-2 rounded-full"
               />
+              <p className="hidden">
+                {errors?.teamMemberNum &&
+                  toast.error("Completion is required", { toastId: customId })}
+              </p>
             </div>
 
             <div className="flex justify-between">
               <input
+                {...register("name", { required: false })}
                 type="text"
                 placeholder="Member Name"
                 className="px-2 pl-4 py-2 w-[70%] rounded-full"
@@ -40,7 +105,9 @@ export default function page() {
                 type="text"
                 placeholder="Member Name"
                 className="px-4 border bg-blue-200 py-2 rounded-full text-[14px]"
-              >Add Member</button>
+              >
+                Add Member
+              </button>
             </div>
             <button
               className=" px-2 py-1 text-white mt-2 bg-blue-500 rounded-full"
@@ -48,16 +115,14 @@ export default function page() {
             >
               Create Task
             </button>
-
-        
-          </div>
+          </form>
         </div>
       </div>
     </div>
   );
 }
 
-export const metadata = {
-  title: "Dashboard - TaskTrack",
-  description: "TaskTrack is a task management application",
-};
+// export const metadata = {
+//   title: "Dashboard - TaskTrack",
+//   description: "TaskTrack is a task management application",
+// };

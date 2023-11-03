@@ -6,7 +6,15 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 export default function page() {
-  const router = useRouter();
+  const navigate = useRouter();
+  let token;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("Token");
+  }
+
+  if (token) {
+    navigate.push("/my-task");
+  }
 
   const {
     register,
@@ -39,7 +47,7 @@ export default function page() {
             localStorage.setItem("Token", data.token);
 
             // Redirect user to My Task
-            router.push('/my-task')
+            navigate.push("/my-task");
           } else {
             toast.error("Email or password is invalid");
           }

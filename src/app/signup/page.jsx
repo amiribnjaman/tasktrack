@@ -31,7 +31,7 @@ export default function page() {
           if (data.status == "201") {
             toast.success("Signup successfully! Login now.");
             // Redirect user to Login page
-            router.push('/my-task')
+            router.push('/login')
           } else {
             toast.error(data.msg);
           }
