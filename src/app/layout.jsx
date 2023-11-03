@@ -1,18 +1,20 @@
-import { Inter } from 'next/font/google'
-import './globals.css'
-import Sidebar from '@/components/sidebar'
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Sidebar from "@/components/sidebar";
 import TopNavbar from "@/components/topNavbar";
-import FilterSidebar from '@/components/filterSidebar';
-import Footer from '@/components/footer'
+import FilterSidebar from "@/components/filterSidebar";
+import Footer from "@/components/footer";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Dasboard - TaskTrack',
-  description: 'TaskTrack is a task management application',
-}
+  title: "Dasboard - TaskTrack",
+  description: "TaskTrack is a task management application",
+};
 
-export default function RootLayout({children}) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
@@ -27,6 +29,7 @@ export default function RootLayout({children}) {
               <TopNavbar />
               <div className="min-h-[85vh] flex gap-6 justify-between">
                 <div className="mt-4 p-4 pb-6 md:w-[65%] border">
+                  <ToastContainer position="top-center" />
                   {children}
                 </div>
                 {/*---------RIGHT SIDE FILTER BAR---------- */}
