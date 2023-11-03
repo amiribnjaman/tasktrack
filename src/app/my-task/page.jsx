@@ -2,11 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function page() {
+  const [deleteConfirmationCard, setdeleteConfirmationCard] = useState(false)
+  const [deleteConfirmationId, setdeleteConfirmationId] = useState('')
   const navigate = useRouter();
   const [data, setData] = useState([]);
-  console.log(data);
+  
+  const [reload, setReload] = useState(false)
 
   let token;
   if (typeof window !== "undefined") {
@@ -27,12 +32,34 @@ export default function page() {
     })
       .then((res) => res.json())
       .then((data) => setData(data));
-  }, []);
+  }, [reload]);
+
+
+  // Handle delete a task
+  const handleDeleteTask = () => {
+    fetch(`http://localhost:4000/api/task/${deleteConfirmationId}`, {
+      method: "DELETE",
+      headers: {
+        // authorization: "Bearer " + localStorage.getItem("Token"),
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status == '204') {
+          setReload(!reload);
+          toast.success("A task deleted!");
+        } else {
+          toast.error("Something went wrong");
+        }
+      });
+    setdeleteConfirmationCard(false)
+  }
 
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between mb-10">
+      <div className="flex relative items-center justify-between mb-10">
         <h3 className="text-xl">Tasks</h3>
         <button
           onClick={() => navigate.push("/create-task")}
@@ -46,22 +73,6 @@ export default function page() {
       {data.length > 0 ? (
         <div className="grid grid-cols-3 mt-6 gap-x-4 gap-y-8">
           {/* card */}
-          {/* <div className="border border-[1.5px] border-dashed px-4 py-6 cursor-pointer">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width=".5"
-            stroke="currentColor"
-            class="w-[60%] mx-auto text-[#ddd]"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 6v12m6-6H6"
-            />
-          </svg>
-        </div> */}
 
           {/*-------------- SINGLE CARD ---------------*/}
           {data.map((d) => (
@@ -130,15 +141,52 @@ export default function page() {
               </div>
               {/* BOTTOM */}
               <div className="px-5 py-2 gap-2 flex">
-                <button
-                  onClick={() => navigate.push("update-task")}
+                <Link
+                  href={`/update-task/${d.id}`}
                   className="text-sm text-white px-4 py-1 bg-green-500 rounded-full"
                 >
                   Update
-                </button>
-                <button className="text-sm px-3 py-1 bg-red-400 text-white rounded-full">
+                </Link>
+                <button
+                  onClick={() => {
+                    setdeleteConfirmationId(d.id)
+                    setdeleteConfirmationCard(true);
+                  }}
+                  className="text-sm px-3 py-1 bg-red-400 text-white rounded-full"
+                >
                   Delete
                 </button>
+
+                {/*------------------DELETE COMFIMATION BUTTON-------------- */}
+                <div
+                  className={`${
+                    deleteConfirmationCard ? "block" : "hidden"
+                  } fixed top-[20%] left-[33%] shadow bg-white w-[330px] text-center rounded py-3 h-[170px] flex flex-col justify-center`}
+                  style={{ backdropFilter: "blur(8px)" }}
+                >
+                  <div>
+                    <h5 className="text-[20px] font-semibold">
+                      Are you sure?{" "}
+                    </h5>
+                    <h5 className="text-[20px] font-semibold">
+                      You want to Delete this?
+                    </h5>
+                  </div>
+                  <div className="flex gap-3 justify-center">
+                    <button
+                      onClick={() => handleDeleteTask()}
+                      className="bg-blue-600 px-7 py-2 mt-3 rounded-lg text-white"
+                    >
+                      Yes!
+                    </button>
+                    <button
+                      onClick={() => setdeleteConfirmationCard(false)}
+                      className="bg-red-600 px-5 py-2 mt-3 rounded-lg text-white"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           ))}

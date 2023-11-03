@@ -6,7 +6,15 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 export default function page() {
-  const router = useRouter();
+  const navigate = useRouter();
+
+   let token;
+   if (typeof window !== "undefined") {
+     token = localStorage.getItem("Token");
+   }
+   if (token) {
+     navigate.push("/my-task");
+   }
   
   const {
     register,
@@ -31,7 +39,7 @@ export default function page() {
           if (data.status == "201") {
             toast.success("Signup successfully! Login now.");
             // Redirect user to Login page
-            router.push('/login')
+            navigate.push('/login')
           } else {
             toast.error(data.msg);
           }

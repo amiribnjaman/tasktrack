@@ -1,13 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-// import { useRouter } from "next/router";
-
-export default function page() {
-  const router = useRouter();
-  const id = router.query
-  console.log(id)
+export default function page({ params }) {
+    const id = params.id;
+    
 
   return (
     <div className="mt-10">
