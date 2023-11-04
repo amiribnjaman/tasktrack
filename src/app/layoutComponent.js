@@ -5,8 +5,8 @@ import TopNavbar from "@/components/topNavbar";
 import FilterSidebar from "@/components/filterSidebar";
 import Footer from "@/components/footer";
 import { ToastContainer } from "react-toastify";
-import { createContext, useState } from "react";
-import { SearchContext } from "./context/SearchContext";
+import { useState } from "react";
+import { SearchContext } from "@/app/context/SearchContext";
 
 export default function LayoutComponent({ children }) {
   // Those are declare here to props drillings (awful)

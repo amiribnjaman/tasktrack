@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from "react";
 import { SearchContext } from "../context/SearchContext";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import Head from "next/head";
 
 export default function page() {
   const [deleteConfirmationCard, setdeleteConfirmationCard] = useState(false);
@@ -14,6 +15,7 @@ export default function page() {
 
   // SERACH CONTEXT VALUE
   const { searchValue, setReload, reload } = useContext(SearchContext);
+
 
   // Check token and if haven't the token then push to login page
   let token;
@@ -51,7 +53,7 @@ export default function page() {
     }
   }, [reload]);
 
-  // Handle delete a task Function
+  // Handle delete a task
   const handleDeleteTask = () => {
     fetch(`http://localhost:4000/api/task/${deleteConfirmationId}`, {
       method: "DELETE",
@@ -101,8 +103,6 @@ export default function page() {
   const changeCurPage = (index) => {
     setCurrentPage(index);
   };
-  //--------------------------------PAGINATION END
-  //------------------------------
 
   return (
     <>

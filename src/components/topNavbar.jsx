@@ -24,7 +24,6 @@ export default function TopNavbar({ setSearchValue, setReload, reload }) {
     token = localStorage.getItem("Token");
   }
 
-
   return (
     <div id="topbar" className="w-full mb-2 sticky top-0 pt-2 z-50">
       <div className="navbar flex py-4 items-center justify-between bg-white shadow-lg rounded-md px-8 sticky top-0">

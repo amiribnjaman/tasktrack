@@ -3,17 +3,24 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { handleLogout } from "@/app/commonFunction/handleLogout";
 
 export default function sidebar() {
   const pathname = usePathname();
   const getPath = pathname.split("/")[pathname.split("/").length - 1];
+  const navigate = useRouter();
+  const [logoutBtn, setLogoutBtn] = useState(false);
 
   // Check access token to logout and login 
   let token;
   if (typeof window !== "undefined") {
     token = localStorage.getItem("Token");
   }
+
+   const handleLogout = () => {
+  localStorage.removeItem("Token");
+  setLogoutBtn(!logoutBtn);
+  navigate.push("/login");
+   };
 
   return (
     <div id="sidebar" className="hidden md:block fixed top-0 bottom-0 w-[20%] z-50 ">
@@ -31,7 +38,7 @@ export default function sidebar() {
       <hr />
 
       {/* Navbar */}
-      <nav className="fixed hidden md:block mt-10 flex flex-col justify-between mb-8 ml-4 top-[62px] bottom-0 w-[17%] overflow-y-auto ">
+      <nav className="fixed hidden md:flex mt-10 flex-col justify-between mb-8 ml-4 top-[62px] bottom-0 w-[17%] overflow-y-auto ">
         {/*--------------------HUMBER FOR MENU---------------- */}
           <div className="block md:hidden">
             <svg
@@ -224,5 +231,5 @@ export default function sidebar() {
       </nav>
       <div></div>
     </div>
-  );
+  )
 }
