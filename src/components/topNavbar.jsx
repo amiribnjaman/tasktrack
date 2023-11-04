@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 
-export default function TopNavbar({ setSearchValue }) {
-  const [showSearchCard, setShowSearchCard] = useState(false)
-  const [search, setSearch] = useState('')
-
+export default function TopNavbar({ setSearchValue, setReload, reload }) {
+  const [showSearchCard, setShowSearchCard] = useState(false);
+  const [search, setSearch] = useState("");
+  // setSearchValue("hello");
 
   // Handle Search
   const handleSearch = () => {
     setSearchValue(search);
-    setSearch('')
-  }
+    setSearch("");
+    setShowSearchCard(false);
+    setReload(!reload);
+  };
 
   return (
     <div id="topbar" className="w-full mb-2 sticky top-0 pt-2 z-50">
@@ -45,7 +47,7 @@ export default function TopNavbar({ setSearchValue }) {
               <input
                 type="text"
                 className="border rounded px-4 py-1"
-                placeholder="Search Here"
+                placeholder="Search by Task title"
                 onChange={(e) => setSearch(e.target.value)}
                 value={search}
               />
@@ -75,6 +77,16 @@ export default function TopNavbar({ setSearchValue }) {
                 className="bg-red-500 px-4 py-1 rounded text-white"
               >
                 Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setSearch("");
+                  setSearchValue(search);
+                  setReload(!reload);
+                }}
+                className="bg-green-500 px-4 py-1 rounded text-white"
+              >
+                Refresh
               </button>
             </div>
           </div>

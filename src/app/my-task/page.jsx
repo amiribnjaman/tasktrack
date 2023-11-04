@@ -20,11 +20,12 @@ export default function page() {
   const [deleteConfirmationId, setdeleteConfirmationId] = useState("");
   const navigate = useRouter();
   const [tasks, setTasks] = useState([]);
-  const [reload, setReload] = useState(false);
+
 
   // SERACH CONTEXT VALUE
-  const { searchValue } = useContext(SearchContext);
-  console.log(searchValue)
+  const { searchValue, setReload, reload } = useContext(SearchContext);
+
+  // SEARCH
 
   // Check token and if haven't the token then push to login page
   let token;
@@ -36,15 +37,30 @@ export default function page() {
   }
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/task", {
-      method: "GET",
-      headers: {
-        authorization: "Bearer " + localStorage.getItem("Token"),
-        "content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setTasks(data));
+    if (searchValue) {
+      fetch(`http://localhost:4000/api/task/search?search=${searchValue}`, {
+        method: "GET",
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("Token"),
+          "content-type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setTasks(data);
+          setReload(!reload);
+        });
+    } else {
+      fetch("http://localhost:4000/api/task", {
+        method: "GET",
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("Token"),
+          "content-type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => setTasks(data));
+    }
   }, [reload]);
 
   // Handle delete a task
@@ -68,7 +84,8 @@ export default function page() {
     setdeleteConfirmationCard(false);
   };
 
-  // PAGINATION
+  //--------------------------------PAGINATION
+  //------------------------------
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 3;
   const lastIndex = currentPage * recordsPerPage;
