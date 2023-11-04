@@ -3,13 +3,14 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { handleLogout } from "@/app/commonFunction/handleLogout";
 
 export default function sidebar() {
   // const [toggleMenu, setToggleMenu] = React.useState(false)
   const pathname = usePathname();
   const navigate = useRouter()
   const getPath = pathname.split("/")[pathname.split("/").length - 1];
-  const [logoutBtn, setLogoutBtn] = useState(false);
+
 
 
   // Check access token
@@ -18,20 +19,9 @@ export default function sidebar() {
     token = localStorage.getItem("Token");
   }
 
-
-  // Handle logout
-  const handleLogout = () => {
-    localStorage.removeItem("Token");
-    setLogoutBtn(!logoutBtn);
-    navigate.push('/login')
-  };
-
   return (
-    <div
-      id="sidebar"
-      className="hidden md:block fixed top-0 bottom-0 w-[20%] z-50 "
-    >
-      <div className="flex relative px-3 sticky top-0 bg-white z-50">
+    <div id="sidebar" className="hidden md:block fixed top-0 bottom-0 w-[20%] z-50 ">
+      <div className="flex hidden md:block relative px-3 sticky top-0 bg-white z-50">
         <h3 className="text-[#5d596c] flex itemsc-center text-[22px] font-semibold p-4 mt-2 mb-4">
           {/* LOGO */}
           <span className="LOGO"></span>
@@ -45,7 +35,24 @@ export default function sidebar() {
       <hr />
 
       {/* Navbar */}
-      <nav className="fixed mt-10 flex flex-col justify-between mb-8 ml-4 top-[62px] bottom-0 w-[17%] overflow-y-auto ">
+      <nav className="fixed hidden md:block mt-10 flex flex-col justify-between mb-8 ml-4 top-[62px] bottom-0 w-[17%] overflow-y-auto ">
+        {/*--------------------HUMBER FOR MENU---------------- */}
+          <div className="block md:hidden">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+          </div>
         {/* MENUS */}
 
         <ul className="menu menu-md w-full mt-4">

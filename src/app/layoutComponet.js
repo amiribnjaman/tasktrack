@@ -15,12 +15,12 @@ export default function LayoutComponent({ children }) {
 
 
   return (
-    <div className="flex ">
-      <aside className="w-64 h-full shadow-md">
+    <div className="md:flex ">
+      <aside className="md:block hidden w-64 h-full shadow-md">
         <Sidebar />
       </aside>
 
-      <div className="bg-[#F8F7FA] w-[80%] h-full">
+      <div className="bg-[#F8F7FA] md:w-[80%] h-full">
         <div className="px-6 relative">
           {/* Top Navbar  */}
           <TopNavbar setSearchValue={setSearchValue} setReload={setReload} />
