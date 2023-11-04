@@ -1,11 +1,26 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
+const getTask = async (id) => {
+  let data = await fetch(`http://localhost:4000/api/task/${id}`);
+  data = await data.json();
+  return data;
+};
+
 export default function page({ params }) {
   const navigate = useRouter();
+  const id = params.id;
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm();
+
   // Check token and if haven't the token then push to login page
   let token;
   if (typeof window !== "undefined") {
@@ -15,21 +30,30 @@ export default function page({ params }) {
     navigate.push("/login");
   }
 
-  const id = params.id;
+  // Load task data
+  useEffect(() => {
+    fetch(`http://localhost:4000/api/task/${id}`, {
+      method: "GET",
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("Token"),
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) =>
+        reset({
+          taskTitle: data.taskTitle,
+          completion: data.completion,
+          teamLeader: data.teamLeader,
+          teamMemberNum: data.teamMemberNum,
+        })
+      );
+  }, []);
 
-   const {
-     register,
-     formState: { errors },
-     handleSubmit,
-     reset,
-   } = useForm();
+  // Custom id for tostify
+  const customId = "custom-id-yes";
 
-   // Custom id for tostify
-   const customId = "custom-id-yes";
-
-
-  const handleUpdateTask = data => {
-    console.log(data)
+  const handleUpdateTask = (data) => {
     if (data) {
       fetch(`http://localhost:4000/api/task/${id}`, {
         method: "PATCH",
@@ -41,11 +65,11 @@ export default function page({ params }) {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
+          console.log(data);
           if (data.status == "201") {
             toast.success("Task updated succefully!");
             // Redirect to task page
-            navigate.push('/my-task')
+            navigate.push("/my-task");
           } else {
             toast.error(data.msg);
           }
@@ -53,7 +77,7 @@ export default function page({ params }) {
     }
 
     reset();
-  }
+  };
   return (
     <div className="mt-10">
       <div className="flex justify-center items-center">
