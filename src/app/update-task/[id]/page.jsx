@@ -98,7 +98,7 @@ export default function page({ params }) {
   return (
     <div className="mt-10">
       <div className="flex justify-center items-center">
-        <div className="w-[80%] shadow-md border px-3 py-3 text-center">
+        <div className="md:w-[80%] w-full shadow-md border px-3 py-3 text-center">
           <h3 className="text-xl font-semibold">Update Task</h3>
           <form
             onSubmit={handleSubmit(handleUpdateTask)}

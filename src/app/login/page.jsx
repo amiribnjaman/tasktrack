@@ -60,7 +60,7 @@ export default function page() {
   return (
     <div className="mt-10">
       <div className="flex justify-center items-center">
-        <div className="w-[60%] shadow-md border px-3 py-2 text-center">
+        <div className="md:w-[60%] w-full shadow-md border px-3 py-2 text-center">
           <h3 className="text-xl font-semibold">Login</h3>
           <form
             onSubmit={handleSubmit(loginSubmit)}

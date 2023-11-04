@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function TopNavbar() {
+export default function TopNavbar({ setSearchValue }) {
+  const [showSearchCard, setShowSearchCard] = useState(false)
+  const [search, setSearch] = useState('')
+
+
+  // Handle Search
+  const handleSearch = () => {
+    setSearchValue(search);
+    setSearch('')
+  }
+
   return (
     <div id="topbar" className="w-full mb-2 sticky top-0 pt-2 z-50">
       <div className="navbar flex py-4 items-center justify-between bg-white shadow-lg rounded-md px-8 sticky top-0">
         <div className="flex-1">
-          <a className="cursor-pointer normal-case text-xl text-[#5d596c]">
+          <a
+            onClick={() => setShowSearchCard(!showSearchCard)}
+            className="cursor-pointer normal-case text-xl text-[#5d596c]"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -21,10 +34,53 @@ export default function TopNavbar() {
               />
             </svg>
           </a>
+
+          {/*---------Search Card--------------- */}
+          <div
+            className={`${
+              showSearchCard ? "block" : "hidden"
+            } shadow-md rounded-md w-[270px] h-[90px] text-center flex flex-col justify-center items-center absolute top-[50px] left-[20%] bg-white`}
+          >
+            <div className="flex items-center">
+              <input
+                type="text"
+                className="border rounded px-4 py-1"
+                placeholder="Search Here"
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+              />
+              <button
+                onClick={handleSearch}
+                className="bg-blue-500 py-1 px-1 rounded"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1"
+                  stroke="currentColor"
+                  className="w-6 h-6 text-white"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div className="flex gap-3 items-center mt-3">
+              <button
+                onClick={() => setShowSearchCard(false)}
+                className="bg-red-500 px-4 py-1 rounded text-white"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
         </div>
 
         <div className="flex items-center gap-6">
-
           {/* Theme */}
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="cursor-pointer">
@@ -70,7 +126,7 @@ export default function TopNavbar() {
           </div>
 
           {/* Profile */}
-         <div className="dropdown dropdown-end">
+          <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-12 rounded-full bg-[#ddd] h-12">
                 <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
@@ -99,7 +155,7 @@ export default function TopNavbar() {
                 <a>Logout</a>
               </li>
             </ul> */}
-          </div> 
+          </div>
         </div>
       </div>
     </div>

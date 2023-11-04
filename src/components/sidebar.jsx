@@ -27,7 +27,10 @@ export default function sidebar() {
   };
 
   return (
-    <div id="sidebar" className="fixed top-0 bottom-0 w-[20%] z-50 ">
+    <div
+      id="sidebar"
+      className="hidden md:block fixed top-0 bottom-0 w-[20%] z-50 "
+    >
       <div className="flex relative px-3 sticky top-0 bg-white z-50">
         <h3 className="text-[#5d596c] flex itemsc-center text-[22px] font-semibold p-4 mt-2 mb-4">
           {/* LOGO */}
@@ -107,10 +110,7 @@ export default function sidebar() {
               getPath == "my-team" ? "sidebar__active" : ""
             }`}
           >
-            <Link
-              href="/"
-              className={`text-[15px] flex gap-2 items-center`}
-            >
+            <Link href="/" className={`text-[15px] flex gap-2 items-center`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -138,10 +138,7 @@ export default function sidebar() {
               getPath == "settings" ? "sidebar__active" : ""
             }`}
           >
-            <Link
-              href="/"
-              className={`text-[15px] flex gap-2 items-center`}
-            >
+            <Link href="/" className={`text-[15px] flex gap-2 items-center`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

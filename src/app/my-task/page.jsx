@@ -2,9 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useContext } from "react";
+// import SearchContext from '@/app/'
+import { SearchContext } from "../context/SearchContext";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import Head from "next/head";
+import TopNavbar from "@/components/topNavbar";
 // import {
 //   pagination,
 //   nextPage,
@@ -18,6 +21,10 @@ export default function page() {
   const navigate = useRouter();
   const [tasks, setTasks] = useState([]);
   const [reload, setReload] = useState(false);
+
+  // SERACH CONTEXT VALUE
+  const { searchValue } = useContext(SearchContext);
+  console.log(searchValue)
 
   // Check token and if haven't the token then push to login page
   let token;
@@ -93,10 +100,6 @@ export default function page() {
 
   return (
     <>
-      <Head>
-        <title>My Task - TaskTrack</title>
-      </Head>
-
       <div>
         {/* Header */}
         <div className="flex relative items-center justify-between mb-10">
@@ -111,7 +114,7 @@ export default function page() {
 
         {/* Body */}
         {tasks.length > 0 ? (
-          <div className="grid grid-cols-3 mt-6 gap-x-4 gap-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 mt-6 gap-x-4 gap-y-8">
             {/* card */}
 
             {/*-------------- SINGLE CARD ---------------*/}
@@ -274,7 +277,9 @@ export default function page() {
               <button
                 onClick={() => changeCurPage(n)}
                 className={`py-[5px] px-[5px] rounded-full ${
-                  currentPage === n ? "text-blue-600 px-[14px] bg-[#e8eefa] " : ""
+                  currentPage === n
+                    ? "text-blue-600 px-[14px] bg-[#e8eefa] "
+                    : ""
                 } join-item btn btn-sm`}
               >
                 {n}
