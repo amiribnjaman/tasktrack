@@ -5,16 +5,21 @@ import { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import Head from "next/head";
+// import {
+//   pagination,
+//   nextPage,
+//   prevPage,
+//   changeCurPage,
+// } from "./components/pagination";
 
 export default function page() {
-  const [deleteConfirmationCard, setdeleteConfirmationCard] = useState(false)
-  const [deleteConfirmationId, setdeleteConfirmationId] = useState('')
+  const [deleteConfirmationCard, setdeleteConfirmationCard] = useState(false);
+  const [deleteConfirmationId, setdeleteConfirmationId] = useState("");
   const navigate = useRouter();
-  const [data, setData] = useState([]);
-  const [reload, setReload] = useState(false)
+  const [tasks, setTasks] = useState([]);
+  const [reload, setReload] = useState(false);
 
-
-    // Check token and if haven't the token then push to login page
+  // Check token and if haven't the token then push to login page
   let token;
   if (typeof window !== "undefined") {
     token = localStorage.getItem("Token");
@@ -32,9 +37,8 @@ export default function page() {
       },
     })
       .then((res) => res.json())
-      .then((data) => setData(data));
+      .then((data) => setTasks(data));
   }, [reload]);
-
 
   // Handle delete a task
   const handleDeleteTask = () => {
@@ -47,15 +51,45 @@ export default function page() {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status == '204') {
+        if (data.status == "204") {
           setReload(!reload);
           toast.success("A task deleted!");
         } else {
           toast.error("Something went wrong");
         }
       });
-    setdeleteConfirmationCard(false)
-  }
+    setdeleteConfirmationCard(false);
+  };
+
+  // PAGINATION
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 3;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+
+  const tasksData = tasks.slice(firstIndex, lastIndex);
+  const npage = Math.ceil(tasks.length / recordsPerPage);
+  const numbers = [...Array(npage + 1).keys()].slice(1);
+  console.log(tasksData, numbers);
+
+  // handle next page
+  const nextPage = () => {
+    if (currentPage !== lastIndex) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // handle previous page
+  const prevPage = () => {
+    if (currentPage !== firstIndex) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  // Change current page
+  const changeCurPage = (index) => {
+    setCurrentPage(index);
+  };
 
   return (
     <>
@@ -76,15 +110,15 @@ export default function page() {
         </div>
 
         {/* Body */}
-        {data.length > 0 ? (
+        {tasks.length > 0 ? (
           <div className="grid grid-cols-3 mt-6 gap-x-4 gap-y-8">
             {/* card */}
 
             {/*-------------- SINGLE CARD ---------------*/}
-            {data.map((d) => (
+            {tasksData.map((task) => (
               <div className="shadow rounded">
                 <div className="text-[15px] font-semibold p-4 relative">
-                  {d.completion < 100 ? (
+                  {task.completion < 100 ? (
                     <span className="text-[10px] text-black absolute top-[-12px] right-[0px] bg-red-100 px-2 py-1 rounded-full">
                       Incomplete
                     </span>
@@ -94,7 +128,7 @@ export default function page() {
                     </span>
                   )}
                   <p className="mb-2 text-[#2565e6] capitalize">
-                    {d.taskTitle}
+                    {task.taskTitle}
                   </p>
                   <hr />
                 </div>
@@ -103,9 +137,13 @@ export default function page() {
                   {/* Completion */}
                   <div className="flex justify-between items-center">
                     <h5
-                      className={`text-[11px] font-semibold ${d.completion < 100 ?'text-red-500' : 'text-green-600'}`}
+                      className={`text-[11px] font-semibold ${
+                        task.completion < 100
+                          ? "text-red-500"
+                          : "text-green-600"
+                      }`}
                     >
-                      {d.completion}% completed
+                      {task.completion}% completed
                     </h5>
                     <button className="bg-green-100 text-sm rounded-full px-4 py-[2px] inline-block">
                       <svg
@@ -128,7 +166,7 @@ export default function page() {
                   <div className="flex justify-between items-center mt-2">
                     <h5 className="text-[12px] font-semibold">Team Leader</h5>
                     <p className="bg-[#e1e9fa] text-[13px] rounded-full px-4 py-[2px] inline-block capitalize">
-                      {d.teamLeader}
+                      {task.teamLeader}
                     </p>
                   </div>
 
@@ -136,13 +174,13 @@ export default function page() {
                   <div className="flex justify-between mt-2 items-center">
                     <h5 className="text-[12px] font-semibold">Team Members</h5>
                     <h5 className="text-[12px] font-semibold bg-blue-100 rounded-full px-2 py-[3px]">
-                      {d.teamMemberNum}
+                      {task.teamMemberNum}
                     </h5>
                   </div>
 
                   {/* Members body */}
                   <div className="grid grid-cols-3 gap-2 mt-2">
-                    {d.teamMembers.map((element) => (
+                    {task.teamMembers.map((element) => (
                       <div className="bg-gray-200 px-1.5 text-sm py-[3px] rounded-full">
                         <h6 className="text-[11px]">@{element}</h6>
                       </div>
@@ -152,14 +190,14 @@ export default function page() {
                 {/* BOTTOM */}
                 <div className="px-5 py-2 gap-2 flex">
                   <Link
-                    href={`/update-task/${d.id}`}
+                    href={`/update-task/${task.id}`}
                     className="text-sm text-white px-4 py-1 bg-green-500 rounded-full"
                   >
                     Update
                   </Link>
                   <button
                     onClick={() => {
-                      setdeleteConfirmationId(d.id);
+                      setdeleteConfirmationId(task.id);
                       setdeleteConfirmationCard(true);
                     }}
                     className="text-sm px-3 py-1 bg-red-400 text-white rounded-full"
@@ -211,6 +249,56 @@ export default function page() {
               Create Now
             </button>
           </div>
+        )}
+
+        {/*-----------------PAGINATION------------------ */}
+        {tasks.length > 3 ? (
+          <div className="flex justify-center mt-14 gap-1">
+            {currentPage == 1 ? (
+              <button
+                onClick={prevPage}
+                className=" btn btn-sm capitalize text-slate-500 mr-2 font-normal cursor-not-allowed"
+                disabled
+              >
+                Previous
+              </button>
+            ) : (
+              <button
+                onClick={prevPage}
+                className=" btn btn-sm mr-2 capitalize  font-normal"
+              >
+                Previous
+              </button>
+            )}
+            {numbers.map((n) => (
+              <button
+                onClick={() => changeCurPage(n)}
+                className={`py-[5px] px-[5px] rounded-full ${
+                  currentPage === n ? "text-blue-600 px-[14px] bg-[#e8eefa] " : ""
+                } join-item btn btn-sm`}
+              >
+                {n}
+              </button>
+            ))}
+            {numbers.length === currentPage ? (
+              <button
+                onClick={nextPage}
+                className={`btn capitalize font-normal btn-sm text-slate-500 ml-2 font-normal cursor-not-allowed`}
+                disabled
+              >
+                Next
+              </button>
+            ) : (
+              <button
+                onClick={nextPage}
+                className={`btn capitalize font-normal btn-sm`}
+              >
+                Next
+              </button>
+            )}
+          </div>
+        ) : (
+          ""
         )}
       </div>
     </>
