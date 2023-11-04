@@ -82,7 +82,7 @@ export default function page() {
                 toast.error("Completion is required", { toastId: customId })}
             </p>
 
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between"> */}
               <input
                 {...register("teamLeader", { required: true })}
                 type="text"
@@ -91,7 +91,7 @@ export default function page() {
               />
               <p className="hidden">
                 {errors?.teamLeader &&
-                  toast.error("Completion is required", { toastId: customId })}
+                  toast.error("Leader name is required", { toastId: customId })}
               </p>
 
               <input
@@ -102,11 +102,11 @@ export default function page() {
               />
               <p className="hidden">
                 {errors?.teamMemberNum &&
-                  toast.error("Completion is required", { toastId: customId })}
+                  toast.error("Team members is required", { toastId: customId })}
               </p>
-            </div>
+            {/* </div> */}
 
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
               <input
                 {...register("name", { required: false })}
                 type="text"
@@ -120,7 +120,7 @@ export default function page() {
               >
                 Add Member
               </button>
-            </div>
+            </div> */}
             <button
               className=" px-2 py-1 text-white mt-2 bg-blue-500 rounded-full"
               type="submit"

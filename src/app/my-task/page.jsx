@@ -86,11 +86,11 @@ export default function page() {
                 <div className="text-[15px] font-semibold p-4 relative">
                   {d.completion < 100 ? (
                     <span className="text-[10px] text-black absolute top-[-12px] right-[0px] bg-red-100 px-2 py-1 rounded-full">
-                      uncomplete
+                      Incomplete
                     </span>
                   ) : (
                     <span className="text-[10px] text-black absolute top-[-12px] right-[0px] bg-green-100 px-2 py-1 rounded-full">
-                      completed
+                      Completed
                     </span>
                   )}
                   <p className="mb-2 text-[#2565e6] capitalize">
@@ -102,7 +102,9 @@ export default function page() {
                 <div className="px-3 pb-3">
                   {/* Completion */}
                   <div className="flex justify-between items-center">
-                    <h5 className="text-[11px] font-semibold text-green-600">
+                    <h5
+                      className={`text-[11px] font-semibold ${d.completion < 100 ?'text-red-500' : 'text-green-600'}`}
+                    >
                       {d.completion}% completed
                     </h5>
                     <button className="bg-green-100 text-sm rounded-full px-4 py-[2px] inline-block">
