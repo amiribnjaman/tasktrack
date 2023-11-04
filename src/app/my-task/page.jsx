@@ -41,7 +41,7 @@ export default function page() {
     fetch(`http://localhost:4000/api/task/${deleteConfirmationId}`, {
       method: "DELETE",
       headers: {
-        // authorization: "Bearer " + localStorage.getItem("Token"),
+        authorization: "Bearer " + localStorage.getItem("Token"),
         "content-type": "application/json",
       },
     })

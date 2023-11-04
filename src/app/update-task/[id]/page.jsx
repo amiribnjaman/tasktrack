@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-const getTask = async (id) => {
-  let data = await fetch(`http://localhost:4000/api/task/${id}`);
-  data = await data.json();
-  return data;
-};
+// const getTask = async (id) => {
+//   let data = await fetch(`http://localhost:4000/api/task/${id}`);
+//   data = await data.json();
+//   return data;
+// };
 
 export default function page({ params }) {
   const navigate = useRouter();
@@ -20,6 +20,8 @@ export default function page({ params }) {
     handleSubmit,
     reset,
   } = useForm();
+
+  const [task, setTask] = useState({});
 
   // Check token and if haven't the token then push to login page
   let token;
@@ -40,20 +42,35 @@ export default function page({ params }) {
       },
     })
       .then((res) => res.json())
-      .then((data) =>
+      .then((data) => {
         reset({
           taskTitle: data.taskTitle,
           completion: data.completion,
           teamLeader: data.teamLeader,
           teamMemberNum: data.teamMemberNum,
-        })
-      );
+        });
+        setTask(data);
+      });
   }, []);
 
   // Custom id for tostify
   const customId = "custom-id-yes";
 
   const handleUpdateTask = (data) => {
+    // Checking is anyhing chanage ro update ro not!
+    if (
+      data.taskTitle == task.taskTitle &&
+      data.completion == task.completion &&
+      data.teamLeader == task.teamLeader &&
+      data.teamMemberNum == task.teamMemberNum
+    ) {
+      toast.warning("Nothing was change to update!");
+      // Redirect to task page
+      navigate.push("/my-task");
+      reset();
+      return;
+    }
+
     if (data) {
       fetch(`http://localhost:4000/api/task/${id}`, {
         method: "PATCH",

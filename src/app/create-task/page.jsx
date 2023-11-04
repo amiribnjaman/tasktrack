@@ -68,7 +68,7 @@ export default function page() {
             />
             <p className="hidden">
               {errors?.taskTitle &&
-                toast.error("Taks Name is required", { toastId: customId })}
+                toast.error("Task Name is required", { toastId: customId })}
             </p>
 
             <input

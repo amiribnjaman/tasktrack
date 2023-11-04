@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function sidebar() {
