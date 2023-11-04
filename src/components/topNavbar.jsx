@@ -7,11 +7,10 @@ export default function TopNavbar({ setSearchValue, setReload, reload }) {
   const [showSearchCard, setShowSearchCard] = useState(false);
   const pathname = usePathname();
   const [search, setSearch] = useState("");
-  const navigate = useRouter();
   const getPath = pathname.split("/")[pathname.split("/").length - 1];
   const [showMenu, setShowMenu] = useState(false);
 
-  // Handle Search
+  // Set values for Handle Search operation
   const handleSearch = () => {
     setSearchValue(search);
     setSearch("");
@@ -19,11 +18,11 @@ export default function TopNavbar({ setSearchValue, setReload, reload }) {
     setReload(!reload);
   };
 
+  // checking token for login/logout operation
   let token;
   if (typeof window !== "undefined") {
     token = localStorage.getItem("Token");
   }
-
 
 
   return (
@@ -182,6 +181,7 @@ export default function TopNavbar({ setSearchValue, setReload, reload }) {
             </ul> */}
           </div>
 
+          {/*--------------------HUMBER FOR MENU---------------- */}
           {/*--------------------HUMBER FOR MENU---------------- */}
           <div
             onClick={() => setShowMenu(!showMenu)}
@@ -376,14 +376,6 @@ export default function TopNavbar({ setSearchValue, setReload, reload }) {
                   </Link>
                 </li>
               )}
-              {/*--------------------- LOGOUT CARD-----------------*/}
-              {/* <div className="absolute top-1/2 left-1.2">
-            <h4>Are you sure to Logout?</h4>
-            <div>
-              <button>Cancel</button>
-              <button>Yes</button>
-            </div>
-          </div> */}
             </ul>
           </div>
         </div>

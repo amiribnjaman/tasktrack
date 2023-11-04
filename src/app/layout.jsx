@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import LayoutComponent from "./layoutComponet";
+import LayoutComponent from "./layoutComponent";
 import "react-toastify/dist/ReactToastify.css";
 
 export const metadata = {
@@ -12,9 +12,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      {/* <Head>
-        <title>Dasboard - TaskTrack</title>
-      </Head> */}
       <body>
         <LayoutComponent children={children}/>
       </body>

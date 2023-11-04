@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Sidebar from "@/components/sidebar";
 import TopNavbar from "@/components/topNavbar";
@@ -8,11 +8,10 @@ import { ToastContainer } from "react-toastify";
 import { createContext, useState } from "react";
 import { SearchContext } from "./context/SearchContext";
 
-
 export default function LayoutComponent({ children }) {
+  // Those are declare here to props drillings (awful)
   const [searchValue, setSearchValue] = useState("");
   const [reload, setReload] = useState(false);
-
 
   return (
     <div className="md:flex ">

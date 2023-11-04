@@ -6,14 +6,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { handleLogout } from "@/app/commonFunction/handleLogout";
 
 export default function sidebar() {
-  // const [toggleMenu, setToggleMenu] = React.useState(false)
   const pathname = usePathname();
-  const navigate = useRouter()
   const getPath = pathname.split("/")[pathname.split("/").length - 1];
 
-
-
-  // Check access token
+  // Check access token to logout and login 
   let token;
   if (typeof window !== "undefined") {
     token = localStorage.getItem("Token");
@@ -224,14 +220,6 @@ export default function sidebar() {
               </Link>
             </li>
           )}
-          {/*--------------------- LOGOUT CARD-----------------*/}
-          {/* <div className="absolute top-1/2 left-1.2">
-            <h4>Are you sure to Logout?</h4>
-            <div>
-              <button>Cancel</button>
-              <button>Yes</button>
-            </div>
-          </div> */}
         </ul>
       </nav>
       <div></div>

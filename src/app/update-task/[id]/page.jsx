@@ -56,8 +56,9 @@ export default function page({ params }) {
   // Custom id for tostify
   const customId = "custom-id-yes";
 
+  // Handle task update function
   const handleUpdateTask = (data) => {
-    // Checking is anyhing chanage ro update ro not!
+    // Checking is anyhing chanage to update ro not!
     if (
       data.taskTitle == task.taskTitle &&
       data.completion == task.completion &&
