@@ -9,14 +9,14 @@ export default function page() {
   const navigate = useRouter();
 
   // Check token and if have the token then push to my task page
-   let token;
-   if (typeof window !== "undefined") {
-     token = localStorage.getItem("Token");
+  let token;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("Token");
   }
-   if (token) {
-     navigate.push("/my-task");
-   }
-  
+  if (token) {
+    navigate.push("/my-task");
+  }
+
   const {
     register,
     formState: { errors },
@@ -40,7 +40,9 @@ export default function page() {
           if (data.status == "201") {
             toast.success("Signup successfully! Login now.");
             // Redirect user to Login page
-            navigate.push('/login')
+            navigate.push("/login");
+          } else if (data.status == "400") {
+            toast.warning("Already registered! Login please.");
           } else {
             toast.error(data.msg);
           }
@@ -75,28 +77,53 @@ export default function page() {
             </p>
 
             <input
-              {...register("email", { required: true })}
+              {...register("email", {
+                required: true,
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                },
+              })}
               type="email"
               placeholder="Enter your email"
               className="px-2 py-2 pl-4 rounded-full"
             />
+            <p className="hidden">
+              {errors.email?.type === "pattern" &&
+                toast.error(
+                  `Invalid email. Please provide a valid email address.`,
+                  {
+                    toastId: customId,
+                  }
+                )}
+            </p>
             <p className="hidden">
               {errors?.email &&
                 toast.error("Email field is required", { toastId: customId })}
             </p>
 
             <input
-              {...register("password", { required: true })}
+              {...register("password", { required: true, minLength: 6 })}
               type="password"
               placeholder="Enter password"
               className="px-2 py-2 pl-4 rounded-full"
             />
+            <p className="hidden">
+              {errors.password?.type === "minLength" &&
+                toast.error(
+                  `Password is too short. 
+                Please provide atleast 6 characters.`,
+                  {
+                    toastId: customId,
+                  }
+                )}
+            </p>
             <p className="hidden">
               {errors?.password &&
                 toast.error("Password field is required", {
                   toastId: customId,
                 })}
             </p>
+
             <button
               className=" px-2 py-1 text-white mt-2 bg-green-500 rounded-full"
               type="submit"
