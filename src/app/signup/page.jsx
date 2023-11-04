@@ -36,7 +36,6 @@ export default function page() {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           if (data.status == "201") {
             toast.success("Signup successfully! Login now.");
             // Redirect user to Login page

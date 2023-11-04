@@ -29,7 +29,6 @@ export default function page() {
 
   //Handle Login submit
   const loginSubmit = (data) => {
-    console.log(data);
     if (data.email && data.password) {
       fetch("http://localhost:4000/api/user/login", {
         method: "POST",

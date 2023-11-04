@@ -83,7 +83,6 @@ export default function page({ params }) {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           if (data.status == "201") {
             toast.success("Task updated succefully!");
             // Redirect to task page

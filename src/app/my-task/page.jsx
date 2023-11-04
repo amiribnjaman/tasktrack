@@ -16,7 +16,6 @@ export default function page() {
   // SERACH CONTEXT VALUE
   const { searchValue, setReload, reload } = useContext(SearchContext);
 
-
   // Check token and if haven't the token then push to login page
   let token;
   if (typeof window !== "undefined") {

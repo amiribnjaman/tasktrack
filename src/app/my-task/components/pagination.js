@@ -8,7 +8,7 @@
 //   const tasksData = tasks.slice(firstIndex, lastIndex);
 //   const npage = Math.ceil(tasks.length / recordsPerPage);
 //   const numbers = [...Array(npage + 1).keys()].slice(1);
-//   console.log(tasksData, numbers);
+// 
 
 //   return { tasksData, numbers };
 // };
