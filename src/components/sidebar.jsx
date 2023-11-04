@@ -1,31 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import React, { useContext, useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function sidebar() {
   // const [toggleMenu, setToggleMenu] = React.useState(false)
   const pathname = usePathname();
+  const navigate = useRouter()
   const getPath = pathname.split("/")[pathname.split("/").length - 1];
   const [logoutBtn, setLogoutBtn] = useState(false);
 
+
   // Check access token
-  let token
+  let token;
   if (typeof window !== "undefined") {
     token = localStorage.getItem("Token");
   }
 
-  useEffect(() => {
-    if (token) {
-      setLogoutBtn(!logoutBtn);
-    }
-  }, []);
 
   // Handle logout
   const handleLogout = () => {
-    localStorage.removeItem('Token')
+    localStorage.removeItem("Token");
     setLogoutBtn(!logoutBtn);
+    navigate.push('/login')
   };
 
   return (
@@ -110,7 +108,7 @@ export default function sidebar() {
             }`}
           >
             <Link
-              href="/my-team"
+              href="/"
               className={`text-[15px] flex gap-2 items-center`}
             >
               <svg
@@ -141,7 +139,7 @@ export default function sidebar() {
             }`}
           >
             <Link
-              href="/settings"
+              href="/"
               className={`text-[15px] flex gap-2 items-center`}
             >
               <svg

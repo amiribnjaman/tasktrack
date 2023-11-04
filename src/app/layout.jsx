@@ -6,6 +6,7 @@ import FilterSidebar from "@/components/filterSidebar";
 import Footer from "@/components/footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Head from "next/head";
 
 // const inter = Inter({ subsets: ['latin'] })
 
@@ -14,9 +15,13 @@ export const metadata = {
   description: "TaskTrack is a task management application",
 };
 
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      {/* <Head>
+        <title>Dasboard - TaskTrack</title>
+      </Head> */}
       <body>
         <div className="flex ">
           <aside className="w-64 h-full shadow-md">

@@ -8,10 +8,11 @@ import { useRouter } from "next/navigation";
 export default function page() {
   const navigate = useRouter();
 
+  // Check token and if have the token then push to my task page
    let token;
    if (typeof window !== "undefined") {
      token = localStorage.getItem("Token");
-   }
+  }
    if (token) {
      navigate.push("/my-task");
    }

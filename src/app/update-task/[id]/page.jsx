@@ -1,8 +1,19 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 export default function page({ params }) {
-    const id = params.id;
-    
+  const navigate = useRouter();
+  // Check token and if haven't the token then push to login page
+  let token;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("Token");
+  }
+  if (!token) {
+    navigate.push("/login");
+  }
+
+  const id = params.id;
 
   return (
     <div className="mt-10">
