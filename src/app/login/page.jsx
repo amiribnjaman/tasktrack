@@ -4,9 +4,12 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { SearchContext } from "../context/SearchContext";
 
 export default function page() {
   const navigate = useRouter();
+  const { setReload, reload } = useContext(SearchContext);
 
   // Check token and if have the token then push to my task page
   let token;
@@ -44,9 +47,12 @@ export default function page() {
 
             // Set token into localstorage
             localStorage.setItem("Token", data.token);
-
+            setReload(!reload);
             // Redirect user to My Task
-            navigate.push("/my-task");
+            setTimeout(() => {
+              setReload(!reload);
+              navigate.push("/my-task");
+            }, 2000);
           } else {
             toast.error("Email or password is invalid");
           }
@@ -107,5 +113,3 @@ export default function page() {
     </div>
   );
 }
-
-

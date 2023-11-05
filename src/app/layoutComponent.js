@@ -15,6 +15,7 @@ export default function LayoutComponent({ children }) {
   const [tasks, setTasks] = useState([]);
   const [oldData, setOldData] = useState([]);
 
+
   useEffect(() => {
     fetch("http://localhost:4000/api/task", {
       method: "GET",
@@ -46,7 +47,7 @@ export default function LayoutComponent({ children }) {
             oldData={oldData}
           />
           <SearchContext.Provider
-            value={{ reload, setReload, tasks,setTasks, oldData,setOldData }}
+            value={{ reload, setReload, tasks, setTasks, oldData,setOldData }}
           >
             <div className="min-h-[85vh] md:flex gap-6 justify-between">
               <div className="mt-4 p-4 pb-6 md:w-[65%] border">

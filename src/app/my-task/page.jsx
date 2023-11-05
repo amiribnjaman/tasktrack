@@ -1,18 +1,20 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { SearchContext } from "../context/SearchContext";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import Head from "next/head";
 
 export default function page() {
   const [deleteConfirmationCard, setdeleteConfirmationCard] = useState(false);
   const [deleteConfirmationId, setdeleteConfirmationId] = useState("");
   const navigate = useRouter();
 
-  // GETTING CONTEXT VALUE
-  const { setReload, reload, tasks } = useContext(SearchContext);
+  // SERACH CONTEXT VALUE
+  const { searchValue, setReload, reload, tasks } = useContext(SearchContext);
+  console.log(tasks)
 
   // Check token and if haven't the token then push to login page
   let token;
@@ -22,6 +24,33 @@ export default function page() {
   if (!token) {
     navigate.push("/login");
   }
+
+  // useEffect(() => {
+  //   if (searchValue) {
+  //     fetch(`http://localhost:4000/api/task/search?search=${searchValue}`, {
+  //       method: "GET",
+  //       headers: {
+  //         authorization: "Bearer " + localStorage.getItem("Token"),
+  //         "content-type": "application/json",
+  //       },
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setTasks(data);
+  //         setReload(!reload);
+  //       });
+  //   } else {
+  //     fetch("http://localhost:4000/api/task", {
+  //       method: "GET",
+  //       headers: {
+  //         authorization: "Bearer " + localStorage.getItem("Token"),
+  //         "content-type": "application/json",
+  //       },
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => setTasks(data));
+  //   }
+  // }, [reload]);
 
   // Handle delete a task
   const handleDeleteTask = () => {
@@ -220,7 +249,7 @@ export default function page() {
           </div>
         ) : (
           <div className="text-center flex justify-center items-center mt-10 gap-2">
-            <p>Nothing found</p>
+            <p>You didn't create any task</p>
             <button
               onClick={() => navigate.push("/create-task")}
               className="border border-[#2565e6] px-2 py-1 rounded-lg text-sm"
