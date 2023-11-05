@@ -16,6 +16,7 @@ export default function sidebar() {
     token = localStorage.getItem("Token");
   }
 
+  // Handle logout button
   const handleLogout = () => {
     localStorage.removeItem("Token");
     setLogoutBtn(!logoutBtn);

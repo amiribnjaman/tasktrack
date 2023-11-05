@@ -1,29 +1,78 @@
 "use client";
 import React, { useState, useContext } from "react";
 import { SearchContext } from "../app/context/SearchContext";
+import { useForm } from "react-hook-form";
 
 export default function FilterSidebar() {
-  const [showToolTip, setShowToolTip] = useState(false);
+  const [filterSeleted, setFilterSelected] = useState({
+    teamLeader: "",
+    teamMemberNum: "",
+    completion: "",
+  });
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm();
 
   // SERACH CONTEXT VALUE
-  const { searchValue, setReload, reload, tasks } = useContext(SearchContext);
+  const { tasks, setTasks, oldData, setOldData } = useContext(SearchContext);
 
-  // Handle tooltip show
-  const handleShowTooltip = () => {
-    setShowToolTip(true);
+  // Filter handle function.
+  const handleFilter = (data) => {
+    // Here getting the filter selected value for reset leter
+    setFilterSelected({
+      teamLeader: data.teamLeader,
+      teamMemberNum: data.teamMemberNum,
+      completion: data.completion,
+    });
+    let result;
+    // condition for leader and team membernum matchend or not
+    if (data.teamLeader && data.teamMemberNum) {
+      result = tasks.filter((task) => {
+        return (
+          task.teamMemberNum == data.teamMemberNum &&
+          task.teamLeader == data.teamLeader
+        );
+      });
+      setTasks(result);
+      // condition only for team leader
+    } else if (data.teamLeader) {
+      result = tasks.filter((task) => task.teamLeader == data.teamLeader);
+      setTasks(result);
+      // condition only for teamMemberNum
+    } else if (data.teamMemberNum) {
+      result = tasks.filter((task) => task.teamMemberNum == data.teamMemberNum);
+      setTasks(result);
+
+      // Condition for complete or incomplete radio options
+    } else if (data.completion == "complete") {
+      result = tasks.filter((task) => task.completion == "100");
+      setTasks(result);
+    } else if (data.completion == "incomplete") {
+      result = tasks.filter((task) => task.completion < 100);
+      setTasks(result);
+    }
   };
 
-  // Handle tooltip remove
-  const handleRemoveTooltip = () => {
-    setShowToolTip(false);
+  // Handle filter reset
+  const handleReset = () => {
+    // Reset all filter selected value
+    setFilterSelected({
+      teamLeader: "",
+      teamMemberNum: "",
+      completion: "",
+    });
+    setTasks(oldData);
   };
-
-  const arr = [1,2,3,4,5]
 
   return (
     <div className="">
       {/*-------------------- Filter box ---------------------*/}
-      <div
+      <form
+        onSubmit={handleSubmit(handleFilter)}
         className={`pt-3 shadow-sm block dark:bg-[#17181B] bg-white px-4 dark:shadow-md  dark:border-slate-800 rounded-md `}
       >
         <h3 className=" text-[16px] font-semibold dark:text-white text-black pb-3">
@@ -38,11 +87,15 @@ export default function FilterSidebar() {
             Team Leader
           </label>
           <select
+            {...register("teamLeader")}
             id="countries"
             className="bg-[#F9FAFC] border border-gray-100 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            {arr.map((a) => (
-              <option selected="">{a}</option>
+            <option value="" selected>
+              Seletect Leader
+            </option>
+            {tasks.map((task) => (
+              <option value={task.teamLeader}>{task.teamLeader}</option>
             ))}
           </select>
         </div>
@@ -54,27 +107,34 @@ export default function FilterSidebar() {
             Team members
           </label>
           <select
+            {...register("teamMemberNum")}
             id="countries"
             className="bg-[#F9FAFC] border border-gray-100 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option selected="">Select Options</option>
+            <option value="" selected>
+              Select Member
+            </option>
+            {tasks.map((task) => (
+              <option value={task.teamMemberNum}>{task.teamMemberNum}</option>
+            ))}
           </select>
         </div>
 
+        {/*------RADIO OPTION------ */}
         <div className="mb-2">
           <label
-            for="countries"
+            for="complete"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
           >
-            Completion{" "}
+            Completion
           </label>
           <div className="flex">
             <div class="flex w-1/2 items-center mr-4">
               <input
+                {...register("completion")}
                 id="inline-radio"
                 type="radio"
-                value=""
-                name="inline-radio-group"
+                value="complete"
                 class="w-4 h-4 text-[#564FB1] border-[#564FB1] focus:ring-[#564FB1] dark:ring-offset-gray-800 focus:ring-1 dark:border-[#564FB1]"
               />
               <label
@@ -86,10 +146,10 @@ export default function FilterSidebar() {
             </div>
             <div class="flex w-1/2 items-center mr-4">
               <input
+                {...register("completion")}
                 id="inline-2-radio"
                 type="radio"
-                value=""
-                name="inline-radio-group"
+                value="incomplete"
                 class="w-4 h-4 text-[#564FB1] border-[#564FB1] focus:ring-[#564FB1] dark:ring-offset-gray-800 focus:ring-1 dark:border-[#564FB1]"
               />
               <label
@@ -105,72 +165,20 @@ export default function FilterSidebar() {
         {/*--------------FILTER BUTTON-------------- */}
         <div className="text-right pb-2 pt-5">
           <button
+            onClick={handleReset}
             type="button"
             className="text-black border border-[#f6f9ff] bg-[#f6f9ff] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2  dark:hover:bg-gray-800 focus:outline-none dark:focus:ring-gray-900"
           >
             Reset
           </button>
           <button
-            type="button"
+            type="submit"
             className="py-2.5 px-5 mr-2 mb-2 text-sm font-semibold text-white focus:outline-none bg-[#2565e6] rounded-lg border border-gray-200 hover:bg-[#5952bf] hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-[#5e56ce] dark:border-gray-600 dark:hover:text-white dark:hover:bg-[#5952bf]"
           >
             Apply
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
-}
-
-// <div className='mb-2'>
-{
-  /* <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Influencer’s Country</label>
-<select
-    id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-    <option>Select Options</option>
-    <option value="bangladesh">Bangladesh</option>
-    <option value="india">India</option>
-    <option value="france">France</option>
-    <option value="usa">USA</option>
-</select>
-</div>
-<div className='mb-2'>
-<label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Audience’s Country</label>
-<select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-    <option selected="">Select Options</option>
-</select>
-</div>
-<div className='mb-2'>
-<label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Influencer’s Social Media Platform</label>
-<select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-    <option selected="">Select Options</option>
-</select>
-</div>
-<div className='mb-2'>
-<label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Influencer’s Social Media Platform</label>
-
-{/*---------------- Tooltip---------------*
-<div className='flex justify-center'>
-    <div class={`${showToolTip ? ' -opacity-10' : 'opacity-5 '} inline-block relative w-[35px] top-[5px] z-10 mx-auto text-center py-2 px-3 text-sm font-medium text-white bg-[#564FB1] rounded-lg shadow-sm tooltip `}>
-        <div class="tooltip-arrow" data-popper-arrow></div>
-    </div>
-</div>
-
-<div>
-    <input
-        id="small-range" type="range"  class="w-full h-1 text-[#564FB1] bg-[#564FB1] rounded-lg appearance-[#564FB1] cursor-pointer" />
-</div>
-
-
-
-<div class="w-full flex text-[#565D69] justify-between text-xs px-2" >
-    <span>1k</span>
-    <span>15k</span>
-    <span>30k</span>
-    <span>45k</span>
-    <span>60k</span>
-    <span>75k</span>
-    <span>90k</span>
-</div>
-</div> */
 }

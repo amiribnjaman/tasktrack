@@ -11,7 +11,7 @@ export default function page() {
   const [deleteConfirmationId, setdeleteConfirmationId] = useState("");
   const navigate = useRouter();
 
-  // SERACH CONTEXT VALUE
+  // GETTING CONTEXT VALUE
   const { setReload, reload, tasks } = useContext(SearchContext);
 
   // Check token and if haven't the token then push to login page
@@ -220,7 +220,7 @@ export default function page() {
           </div>
         ) : (
           <div className="text-center flex justify-center items-center mt-10 gap-2">
-            <p>You didn't create any task</p>
+            <p>Nothing found</p>
             <button
               onClick={() => navigate.push("/create-task")}
               className="border border-[#2565e6] px-2 py-1 rounded-lg text-sm"

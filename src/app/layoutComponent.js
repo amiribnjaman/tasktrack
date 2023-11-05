@@ -40,15 +40,13 @@ export default function LayoutComponent({ children }) {
         <div className="px-6 relative">
           {/* Top Navbar  */}
           <TopNavbar
-            searchValue
-            setSearchValue={setSearchValue}
             setReload={setReload}
             tasks={tasks}
             setTasks={setTasks}
             oldData={oldData}
           />
           <SearchContext.Provider
-            value={{ searchValue, reload, setReload, tasks }}
+            value={{ reload, setReload, tasks,setTasks, oldData,setOldData }}
           >
             <div className="min-h-[85vh] md:flex gap-6 justify-between">
               <div className="mt-4 p-4 pb-6 md:w-[65%] border">

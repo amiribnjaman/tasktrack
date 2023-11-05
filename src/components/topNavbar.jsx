@@ -1,49 +1,50 @@
 import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { handleLogout } from "@/app/commonFunction/handleLogout";
 
-export default function TopNavbar({
-  searchValue,
-  setSearchValue,
-  tasks,
-  setTasks,
-  oldData,
-}) {
+export default function TopNavbar({ tasks, setTasks, oldData }) {
   const [showSearchCard, setShowSearchCard] = useState(false);
   const pathname = usePathname();
   const [search, setSearch] = useState("");
   const getPath = pathname.split("/")[pathname.split("/").length - 1];
   const [showMenu, setShowMenu] = useState(false);
 
-  // Set values for Handle Search operation
-  const handleSearch = () => {
+  // Handle Search operation function
+  const handleSearch = (e) => {
     let result;
     if (search) {
+      // Filter out the task which match with search value
       result = tasks.filter((task) => {
         return task.taskTitle.toLowerCase() == search.toLowerCase()
           ? task.taskTitle.toLowerCase() == search.toLowerCase()
           : task.taskTitle.toLowerCase().includes(search.toLowerCase());
       });
     }
+    // Send filtered value
     setTasks(result);
-    setSearchValue(search);
+    // Reset search fields
     setSearch("");
     setShowSearchCard(false);
   };
 
-  // Handle Refresh
+  // Handle Refresh function
   const handleRefresh = () => {
     setTasks(oldData);
     setShowSearchCard(false);
   };
 
-  
   // checking token for login/logout operation
   let token;
   if (typeof window !== "undefined") {
     token = localStorage.getItem("Token");
   }
+
+  // Handle logout button
+  const handleLogout = () => {
+    localStorage.removeItem("Token");
+    setLogoutBtn(!logoutBtn);
+    navigate.push("/login");
+  };
 
   return (
     <div id="topbar" className="w-full mb-2 sticky top-0 pt-2 z-50">
@@ -172,29 +173,6 @@ export default function TopNavbar({
                 <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
               </div>
             </label>
-            {/* <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] py-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li className="block gap-2">
-                <div>
-                <div className="w-10 rounded-full h-10 bg-[#ddd]">
-                  <div></div>
-                </div>
-                <div>
-                  <h4 className="text-lg">User</h4>
-                  <h6 className="text-sm">Admin</h6>
-                </div>
-                </div>
-              </li>
-              <hr />
-              <li>
-                <a>Settings</a>
-              </li>
-              <li>
-                <a>Logout</a>
-              </li>
-            </ul> */}
           </div>
 
           {/*--------------------HUMBER FOR MENU---------------- */}
