@@ -3,7 +3,13 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { handleLogout } from "@/app/commonFunction/handleLogout";
 
-export default function TopNavbar({ setSearchValue, setReload, reload }) {
+export default function TopNavbar({
+  searchValue,
+  setSearchValue,
+  tasks,
+  setTasks,
+  oldData,
+}) {
   const [showSearchCard, setShowSearchCard] = useState(false);
   const pathname = usePathname();
   const [search, setSearch] = useState("");
@@ -12,12 +18,27 @@ export default function TopNavbar({ setSearchValue, setReload, reload }) {
 
   // Set values for Handle Search operation
   const handleSearch = () => {
+    let result;
+    if (search) {
+      result = tasks.filter((task) => {
+        return task.taskTitle.toLowerCase() == search.toLowerCase()
+          ? task.taskTitle.toLowerCase() == search.toLowerCase()
+          : task.taskTitle.toLowerCase().includes(search.toLowerCase());
+      });
+    }
+    setTasks(result);
     setSearchValue(search);
     setSearch("");
     setShowSearchCard(false);
-    setReload(!reload);
   };
 
+  // Handle Refresh
+  const handleRefresh = () => {
+    setTasks(oldData);
+    setShowSearchCard(false);
+  };
+
+  
   // checking token for login/logout operation
   let token;
   if (typeof window !== "undefined") {
@@ -90,11 +111,7 @@ export default function TopNavbar({ setSearchValue, setReload, reload }) {
                 Cancel
               </button>
               <button
-                onClick={() => {
-                  setSearch("");
-                  setSearchValue(search);
-                  setReload(!reload);
-                }}
+                onClick={handleRefresh}
                 className="bg-green-500 px-4 py-1 rounded text-white"
               >
                 Refresh

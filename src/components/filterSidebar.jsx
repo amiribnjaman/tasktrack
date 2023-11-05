@@ -1,8 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { SearchContext } from "../app/context/SearchContext";
 
 export default function FilterSidebar() {
   const [showToolTip, setShowToolTip] = useState(false);
+
+  // SERACH CONTEXT VALUE
+  const { searchValue, setReload, reload, tasks } = useContext(SearchContext);
 
   // Handle tooltip show
   const handleShowTooltip = () => {
@@ -13,6 +17,8 @@ export default function FilterSidebar() {
   const handleRemoveTooltip = () => {
     setShowToolTip(false);
   };
+
+  const arr = [1,2,3,4,5]
 
   return (
     <div className="">
@@ -35,7 +41,9 @@ export default function FilterSidebar() {
             id="countries"
             className="bg-[#F9FAFC] border border-gray-100 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option selected="">Select Options</option>
+            {arr.map((a) => (
+              <option selected="">{a}</option>
+            ))}
           </select>
         </div>
         <div className="mb-5">
