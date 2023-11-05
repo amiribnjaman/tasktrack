@@ -5,7 +5,6 @@ import { useState, useEffect, useContext } from "react";
 import { SearchContext } from "../context/SearchContext";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import Head from "next/head";
 
 export default function page() {
   const [deleteConfirmationCard, setdeleteConfirmationCard] = useState(false);
@@ -14,7 +13,6 @@ export default function page() {
 
   // SERACH CONTEXT VALUE
   const { setReload, reload, tasks } = useContext(SearchContext);
-  console.log(tasks);
 
   // Check token and if haven't the token then push to login page
   let token;
@@ -230,7 +228,7 @@ export default function page() {
           </div>
         ) : (
           <div className="text-center flex justify-center items-center mt-10 gap-2">
-            <p>You didn't create any task</p>
+            <p>No task is available!</p>
             <button
               onClick={() => navigate.push("/create-task")}
               className="border border-[#2565e6] px-2 py-1 rounded-lg text-sm"
