@@ -1,7 +1,8 @@
 "use client";
 
+import { SearchContext } from "@/app/context/SearchContext";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -12,6 +13,7 @@ import { toast } from "react-toastify";
 // };
 
 export default function page({ params }) {
+  const { setReload, reload } = useContext(SearchContext);
   const navigate = useRouter();
   const id = params.id;
   const {
@@ -84,6 +86,7 @@ export default function page({ params }) {
         .then((res) => res.json())
         .then((data) => {
           if (data.status == "201") {
+            setReload(!reload);
             toast.success("Task updated succefully!");
             // Redirect to task page
             navigate.push("/my-task");
