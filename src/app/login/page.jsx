@@ -43,16 +43,16 @@ export default function page() {
         .then((res) => res.json())
         .then((data) => {
           if (data.status == "200") {
-            toast.success("You have logedin successfully!");
-
             // Set token into localstorage
             localStorage.setItem("Token", data.token);
+            toast.success("You have logedin successfully!");
+
             setReload(!reload);
             // Redirect user to My Task
             setTimeout(() => {
               setReload(!reload);
               navigate.push("/my-task");
-            }, 2000);
+            }, 1000);
           } else {
             toast.error("Email or password is invalid");
           }

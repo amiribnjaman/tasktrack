@@ -52,7 +52,6 @@ export default function LayoutComponent({ children }) {
             <div className="min-h-[85vh] md:flex gap-6 justify-between">
               <div className="mt-4 p-4 pb-6 md:w-[65%] border">
                 <ToastContainer position="top-center" />
-
                 {children}
               </div>
               {/*---------RIGHT SIDE FILTER BAR---------- */}

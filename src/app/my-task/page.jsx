@@ -13,8 +13,8 @@ export default function page() {
   const navigate = useRouter();
 
   // SERACH CONTEXT VALUE
-  const { searchValue, setReload, reload, tasks } = useContext(SearchContext);
-  console.log(tasks)
+  const { setReload, reload, tasks } = useContext(SearchContext);
+  console.log(tasks);
 
   // Check token and if haven't the token then push to login page
   let token;
@@ -24,33 +24,6 @@ export default function page() {
   if (!token) {
     navigate.push("/login");
   }
-
-  // useEffect(() => {
-  //   if (searchValue) {
-  //     fetch(`http://localhost:4000/api/task/search?search=${searchValue}`, {
-  //       method: "GET",
-  //       headers: {
-  //         authorization: "Bearer " + localStorage.getItem("Token"),
-  //         "content-type": "application/json",
-  //       },
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         setTasks(data);
-  //         setReload(!reload);
-  //       });
-  //   } else {
-  //     fetch("http://localhost:4000/api/task", {
-  //       method: "GET",
-  //       headers: {
-  //         authorization: "Bearer " + localStorage.getItem("Token"),
-  //         "content-type": "application/json",
-  //       },
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => setTasks(data));
-  //   }
-  // }, [reload]);
 
   // Handle delete a task
   const handleDeleteTask = () => {
@@ -80,9 +53,14 @@ export default function page() {
   const lastIndex = currentPage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
 
-  const tasksData = tasks.slice(firstIndex, lastIndex);
-  const npage = Math.ceil(tasks.length / recordsPerPage);
-  const numbers = [...Array(npage + 1).keys()].slice(1);
+  let tasksData;
+  let npage;
+  let numbers;
+  if (tasks.length > 0) {
+    tasksData = tasks.length > 0 && tasks.slice(firstIndex, lastIndex);
+    npage = Math.ceil(tasks.length / recordsPerPage);
+    numbers = [...Array(npage + 1).keys()].slice(1);
+  }
 
   // handle next page
   const nextPage = () => {
@@ -123,129 +101,132 @@ export default function page() {
             {/* card */}
 
             {/*-------------- SINGLE CARD ---------------*/}
-            {tasksData.map((task) => (
-              <div className="shadow rounded">
-                <div className="text-[15px] font-semibold p-4 relative">
-                  {task.completion < 100 ? (
-                    <span className="text-[10px] text-black absolute top-[-12px] right-[0px] bg-red-100 px-2 py-1 rounded-full">
-                      Incomplete
-                    </span>
-                  ) : (
-                    <span className="text-[10px] text-black absolute top-[-12px] right-[0px] bg-green-100 px-2 py-1 rounded-full">
-                      Completed
-                    </span>
-                  )}
-                  <p className="mb-2 text-[#2565e6] capitalize">
-                    {task.taskTitle}
-                  </p>
-                  <hr />
-                </div>
-                {/* Body */}
-                <div className="px-3 pb-3">
-                  {/* Completion */}
-                  <div className="flex justify-between items-center">
-                    <h5
-                      className={`text-[11px] font-semibold ${
-                        task.completion < 100
-                          ? "text-red-500"
-                          : "text-green-600"
-                      }`}
-                    >
-                      {task.completion}% completed
-                    </h5>
-                    <button className="bg-green-100 text-sm rounded-full px-4 py-[2px] inline-block">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width=".5"
-                        stroke="currentColor"
-                        class="w-4 h-4"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M12 6v12m6-6H6"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                  {/* Team leader */}
-                  <div className="flex justify-between items-center mt-2">
-                    <h5 className="text-[12px] font-semibold">Team Leader</h5>
-                    <p className="bg-[#e1e9fa] text-[13px] rounded-full px-4 py-[2px] inline-block capitalize">
-                      {task.teamLeader}
+            {tasksData.length > 0 &&
+              tasksData.map((task) => (
+                <div className="shadow rounded">
+                  <div className="text-[15px] font-semibold p-4 relative">
+                    {task.completion < 100 ? (
+                      <span className="text-[10px] text-black absolute top-[-12px] right-[0px] bg-red-100 px-2 py-1 rounded-full">
+                        Incomplete
+                      </span>
+                    ) : (
+                      <span className="text-[10px] text-black absolute top-[-12px] right-[0px] bg-green-100 px-2 py-1 rounded-full">
+                        Completed
+                      </span>
+                    )}
+                    <p className="mb-2 text-[#2565e6] capitalize">
+                      {task.taskTitle}
                     </p>
+                    <hr />
                   </div>
+                  {/* Body */}
+                  <div className="px-3 pb-3">
+                    {/* Completion */}
+                    <div className="flex justify-between items-center">
+                      <h5
+                        className={`text-[11px] font-semibold ${
+                          task.completion < 100
+                            ? "text-red-500"
+                            : "text-green-600"
+                        }`}
+                      >
+                        {task.completion}% completed
+                      </h5>
+                      <button className="bg-green-100 text-sm rounded-full px-4 py-[2px] inline-block">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width=".5"
+                          stroke="currentColor"
+                          class="w-4 h-4"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M12 6v12m6-6H6"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                    {/* Team leader */}
+                    <div className="flex justify-between items-center mt-2">
+                      <h5 className="text-[12px] font-semibold">Team Leader</h5>
+                      <p className="bg-[#e1e9fa] text-[13px] rounded-full px-4 py-[2px] inline-block capitalize">
+                        {task.teamLeader}
+                      </p>
+                    </div>
 
-                  {/* Members heading */}
-                  <div className="flex justify-between mt-2 items-center">
-                    <h5 className="text-[12px] font-semibold">Team Members</h5>
-                    <h5 className="text-[12px] font-semibold bg-blue-100 rounded-full px-2 py-[3px]">
-                      {task.teamMemberNum}
-                    </h5>
+                    {/* Members heading */}
+                    <div className="flex justify-between mt-2 items-center">
+                      <h5 className="text-[12px] font-semibold">
+                        Team Members
+                      </h5>
+                      <h5 className="text-[12px] font-semibold bg-blue-100 rounded-full px-2 py-[3px]">
+                        {task.teamMemberNum}
+                      </h5>
+                    </div>
+
+                    {/* Members body */}
+                    <div className="grid grid-cols-3 gap-2 mt-2">
+                      {task.teamMembers.map((element) => (
+                        <div className="bg-gray-200 px-1.5 text-sm py-[3px] rounded-full">
+                          <h6 className="text-[11px]">@{element}</h6>
+                        </div>
+                      ))}
+                    </div>
                   </div>
+                  {/* BOTTOM */}
+                  <div className="px-5 py-2 gap-2 flex">
+                    <Link
+                      href={`/update-task/${task.id}`}
+                      className="text-sm text-white px-4 py-1 bg-green-500 rounded-full"
+                    >
+                      Update
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setdeleteConfirmationId(task.id);
+                        setdeleteConfirmationCard(true);
+                      }}
+                      className="text-sm px-3 py-1 bg-red-400 text-white rounded-full"
+                    >
+                      Delete
+                    </button>
 
-                  {/* Members body */}
-                  <div className="grid grid-cols-3 gap-2 mt-2">
-                    {task.teamMembers.map((element) => (
-                      <div className="bg-gray-200 px-1.5 text-sm py-[3px] rounded-full">
-                        <h6 className="text-[11px]">@{element}</h6>
+                    {/*------------------DELETE COMFIMATION BUTTON-------------- */}
+                    <div
+                      className={`${
+                        deleteConfirmationCard ? "block" : "hidden"
+                      } fixed top-[20%] left-[33%] shadow bg-white w-[330px] text-center rounded py-3 h-[170px] flex flex-col justify-center`}
+                      style={{ backdropFilter: "blur(8px)" }}
+                    >
+                      <div>
+                        <h5 className="text-[20px] font-semibold">
+                          Are you sure?{" "}
+                        </h5>
+                        <h5 className="text-[20px] font-semibold">
+                          You want to Delete this?
+                        </h5>
                       </div>
-                    ))}
-                  </div>
-                </div>
-                {/* BOTTOM */}
-                <div className="px-5 py-2 gap-2 flex">
-                  <Link
-                    href={`/update-task/${task.id}`}
-                    className="text-sm text-white px-4 py-1 bg-green-500 rounded-full"
-                  >
-                    Update
-                  </Link>
-                  <button
-                    onClick={() => {
-                      setdeleteConfirmationId(task.id);
-                      setdeleteConfirmationCard(true);
-                    }}
-                    className="text-sm px-3 py-1 bg-red-400 text-white rounded-full"
-                  >
-                    Delete
-                  </button>
-
-                  {/*------------------DELETE COMFIMATION BUTTON-------------- */}
-                  <div
-                    className={`${
-                      deleteConfirmationCard ? "block" : "hidden"
-                    } fixed top-[20%] left-[33%] shadow bg-white w-[330px] text-center rounded py-3 h-[170px] flex flex-col justify-center`}
-                    style={{ backdropFilter: "blur(8px)" }}
-                  >
-                    <div>
-                      <h5 className="text-[20px] font-semibold">
-                        Are you sure?{" "}
-                      </h5>
-                      <h5 className="text-[20px] font-semibold">
-                        You want to Delete this?
-                      </h5>
-                    </div>
-                    <div className="flex gap-3 justify-center">
-                      <button
-                        onClick={() => handleDeleteTask()}
-                        className="bg-blue-600 px-7 py-2 mt-3 rounded-lg text-white"
-                      >
-                        Yes!
-                      </button>
-                      <button
-                        onClick={() => setdeleteConfirmationCard(false)}
-                        className="bg-red-600 px-5 py-2 mt-3 rounded-lg text-white"
-                      >
-                        Cancel
-                      </button>
+                      <div className="flex gap-3 justify-center">
+                        <button
+                          onClick={() => handleDeleteTask()}
+                          className="bg-blue-600 px-7 py-2 mt-3 rounded-lg text-white"
+                        >
+                          Yes!
+                        </button>
+                        <button
+                          onClick={() => setdeleteConfirmationCard(false)}
+                          className="bg-red-600 px-5 py-2 mt-3 rounded-lg text-white"
+                        >
+                          Cancel
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         ) : (
           <div className="text-center flex justify-center items-center mt-10 gap-2">
