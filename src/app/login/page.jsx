@@ -108,7 +108,4 @@ export default function page() {
   );
 }
 
-// export const metadata = {
-//   title: "Dashboard - TaskTrack",
-//   description: "TaskTrack is a task management application",
-// };
+

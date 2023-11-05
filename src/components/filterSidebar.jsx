@@ -2,13 +2,24 @@
 import React, { useState, useContext } from "react";
 import { SearchContext } from "../app/context/SearchContext";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 export default function FilterSidebar() {
+  const navigate = useRouter();
   const [filterSeleted, setFilterSelected] = useState({
     teamLeader: "",
     teamMemberNum: "",
     completion: "",
   });
+
+  // Check token and if haven't the token then push to login page
+  let token;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("Token");
+  }
+  if (!token) {
+    navigate.push("/login");
+  }
 
   const {
     register,
@@ -94,9 +105,10 @@ export default function FilterSidebar() {
             <option value="" selected>
               Seletect Leader
             </option>
-            {tasks.map((task) => (
-              <option value={task.teamLeader}>{task.teamLeader}</option>
-            ))}
+            {tasks.length > 0 ?
+              tasks?.map((task) => (
+                <option value={task.teamLeader}>{task.teamLeader}</option>
+              )) : ''}
           </select>
         </div>
         <div className="mb-5">
@@ -114,9 +126,13 @@ export default function FilterSidebar() {
             <option value="" selected>
               Select Member
             </option>
-            {tasks.map((task) => (
-              <option value={task.teamMemberNum}>{task.teamMemberNum}</option>
-            ))}
+            {tasks.length > 0
+              ? tasks?.map((task) => (
+                  <option value={task.teamMemberNum}>
+                    {task.teamMemberNum}
+                  </option>
+                ))
+              : ""}
           </select>
         </div>
 
