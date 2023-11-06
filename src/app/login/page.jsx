@@ -49,10 +49,7 @@ export default function page() {
 
             setReload(!reload);
             // Redirect user to My Task
-            setTimeout(() => {
-              setReload(!reload);
-              navigate.push("/my-task");
-            }, 1000);
+            navigate.push("/my-task");
           } else {
             toast.error("Email or password is invalid");
           }
