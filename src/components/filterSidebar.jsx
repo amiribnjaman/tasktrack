@@ -32,7 +32,7 @@ export default function FilterSidebar() {
 
   // Filter handle function.
   const handleFilter = (data) => {
-    console.log(data.completion);
+    console.log(data);
     // Here getting the filter selected value for reset leter
     setFilterSelected({
       teamLeader: data.teamLeader,
@@ -176,8 +176,32 @@ export default function FilterSidebar() {
           </select>
         </div>
 
-        {/*------RADIO OPTION------ */}
-        <div className="mb-2">
+        {/*------COMPLETEION OPTION------ */}
+        <div className="mb-5">
+          <label
+            htmlFor="countries"
+            class="block mb-2 text-[14px] font-medium text-gray-600 dark:text-gray-400"
+          >
+            Completion
+          </label>
+          <select
+            {...register("completion")}
+            id="countries"
+            className="bg-[#F9FAFC] border border-gray-100 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          >
+            <option value="" selected>
+              Seletect Completion
+            </option>
+            <option value="complete">Complete</option>
+            <option value="incomplete">Incomplete</option>
+            {/* {tasks.length > 0
+              ? tasks.map((task) => (
+                  <option value={task.completion}>{task.completion}</option>
+                ))
+              : ""} */}
+          </select>
+        </div>
+        {/*<div className="mb-2">
           <label
             for="complete"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
@@ -216,7 +240,7 @@ export default function FilterSidebar() {
               </label>
             </div>
           </div>
-        </div>
+        </div>*/}
 
         {/*--------------FILTER BUTTON-------------- */}
         <div className="text-right pb-2 pt-5">
