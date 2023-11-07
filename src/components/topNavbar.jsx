@@ -1,8 +1,9 @@
-"use client"
+"use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { SearchContext } from "@/app/context/SearchContext";
 
 export default function TopNavbar({ tasks, setTasks, oldData }) {
   const [showSearchCard, setShowSearchCard] = useState(false);
@@ -10,6 +11,11 @@ export default function TopNavbar({ tasks, setTasks, oldData }) {
   const [search, setSearch] = useState("");
   const getPath = pathname.split("/")[pathname.split("/").length - 1];
   const [showMenu, setShowMenu] = useState(false);
+  const navigate = useRouter();
+  const [logoutBtn, setLogoutBtn] = useState(false);
+
+  // SERACH CONTEXT VALUE
+  const { setReload, reload } = useContext(SearchContext);
 
   // Handle Search operation function
   const handleSearch = (e) => {
@@ -43,9 +49,11 @@ export default function TopNavbar({ tasks, setTasks, oldData }) {
 
   // Handle logout button
   const handleLogout = () => {
+    console.log("logout");
     localStorage.removeItem("Token");
     setLogoutBtn(!logoutBtn);
     navigate.push("/login");
+    setReload(!reload);
   };
 
   return (
@@ -72,11 +80,11 @@ export default function TopNavbar({ tasks, setTasks, oldData }) {
             </svg>
           </a>
 
-          {/*---------Search Card--------------- */}
+          {/*--------------Search Card--------------- */}
           <div
             className={`${
               showSearchCard ? "block" : "hidden"
-            } shadow-md rounded-md w-[270px] h-[90px] text-center flex flex-col justify-center items-center absolute top-[50px] left-[20%] bg-white`}
+            } shadow-md rounded-md w-[250px] md:w-[270px] h-[90px] text-center flex flex-col justify-center items-center absolute top-[50px] left-0 md:left-[20%] bg-white`}
           >
             <div className="flex items-center">
               <input
@@ -265,7 +273,7 @@ export default function TopNavbar({ tasks, setTasks, oldData }) {
                 }`}
               >
                 <Link
-                  href="/"
+                  href="/my-team"
                   className={`text-[15px] flex gap-2 items-center`}
                 >
                   <svg
@@ -291,7 +299,7 @@ export default function TopNavbar({ tasks, setTasks, oldData }) {
                 }`}
               >
                 <Link
-                  href="/"
+                  href="/settings"
                   className={`text-[15px] flex gap-2 items-center`}
                 >
                   <svg

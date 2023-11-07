@@ -124,7 +124,7 @@ export default function sidebar() {
               getPath == "my-team" ? "sidebar__active" : ""
             }`}
           >
-            <Link href="/" className={`text-[15px] flex gap-2 items-center`}>
+            <Link href="/my-team" className={`text-[15px] flex gap-2 items-center`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -152,7 +152,7 @@ export default function sidebar() {
               getPath == "settings" ? "sidebar__active" : ""
             }`}
           >
-            <Link href="/" className={`text-[15px] flex gap-2 items-center`}>
+            <Link href="/settings" className={`text-[15px] flex gap-2 items-center`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

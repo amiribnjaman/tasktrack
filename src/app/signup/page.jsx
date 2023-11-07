@@ -15,8 +15,8 @@ export default function page() {
     if (typeof window !== "undefined") {
       token = localStorage.getItem("Token");
     }
-    if (!token) {
-      navigate.push("/login");
+    if (token) {
+      navigate.push("/my-task");
     }
   }, []);
 

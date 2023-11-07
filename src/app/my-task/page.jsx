@@ -24,7 +24,7 @@ export default function page() {
     if (!token) {
       navigate.push("/login");
     }
-  }, []);
+  }, [reload]);
 
   // Handle REFRESH button
   const handleRefresh = () => {
@@ -38,25 +38,31 @@ export default function page() {
 
   // Handle delete a task
   const handleDeleteTask = () => {
-    fetch(
-      `https://tasktrack-87zm.onrender.com/api/task/${deleteConfirmationId}`,
-      {
-        method: "DELETE",
-        headers: {
-          authorization: "Bearer " + localStorage.getItem("Token"),
-          "content-type": "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status == "204") {
-          setReload(!reload);
-          toast.success("A task deleted!");
-        } else {
-          toast.error("Something went wrong");
+    token = localStorage.getItem("Token");
+    if (!token) {
+      navigate.push("/login");
+    } else {
+      fetch(
+        `https://tasktrack-87zm.onrender.com/api/task/${deleteConfirmationId}`,
+        {
+          method: "DELETE",
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("Token"),
+            "content-type": "application/json",
+          },
         }
-      });
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status == "204") {
+            setReload(!reload);
+            toast.success("A task deleted!");
+          } else {
+            toast.error("Something went wrong");
+          }
+        });
+    }
+
     setdeleteConfirmationCard(false);
   };
 
