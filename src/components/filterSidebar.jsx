@@ -11,6 +11,8 @@ export default function FilterSidebar() {
     teamMemberNum: "",
     completion: "",
   });
+  // SERACH CONTEXT VALUE
+  const { tasks, setTasks, oldData, setOldData } = useContext(SearchContext);
 
   // Check token and if haven't the token then push to login page
   // let token;
@@ -18,7 +20,7 @@ export default function FilterSidebar() {
   //   token = localStorage.getItem("Token");
   // }
   // if (!token) {
-  //   navigate.push("/login");
+  //   setTasks([])
   // }
 
   const {
@@ -28,11 +30,9 @@ export default function FilterSidebar() {
     reset,
   } = useForm();
 
-  // SERACH CONTEXT VALUE
-  const { tasks, setTasks, oldData, setOldData } = useContext(SearchContext);
-
   // Filter handle function.
   const handleFilter = (data) => {
+    console.log(data.completion);
     // Here getting the filter selected value for reset leter
     setFilterSelected({
       teamLeader: data.teamLeader,
@@ -41,7 +41,34 @@ export default function FilterSidebar() {
     });
     let result;
     // condition for leader and team membernum matchend or not
-    if (data.teamLeader && data.teamMemberNum) {
+    if (
+      data.teamLeader &&
+      data.teamMemberNum &&
+      data.completion == "complete"
+    ) {
+      result = tasks.filter((task) => {
+        return (
+          task.teamMemberNum == data.teamMemberNum &&
+          task.teamLeader == data.teamLeader &&
+          task.completion == 100
+        );
+      });
+      setTasks(result);
+    } else if (
+      data.teamLeader &&
+      data.teamMemberNum &&
+      data.completion == "incomplete"
+    ) {
+      result = tasks.filter((task) => {
+        return (
+          task.teamMemberNum == data.teamMemberNum &&
+          task.teamLeader == data.teamLeader &&
+          task.completion < 100
+        );
+      });
+      setTasks(result);
+      // condition only for team leader
+    } else if (data.teamLeader && data.teamMemberNum) {
       result = tasks.filter((task) => {
         return (
           task.teamMemberNum == data.teamMemberNum &&
@@ -49,7 +76,20 @@ export default function FilterSidebar() {
         );
       });
       setTasks(result);
-      // condition only for team leader
+    } else if (data.teamLeader && data.completion == "complete") {
+      result = tasks.filter((task) => {
+        return (
+          task.teamMemberNum == data.teamMemberNum && task.completion == 100
+        );
+      });
+      setTasks(result);
+    } else if (data.teamLeader && data.completion == "incomplete") {
+      result = tasks.filter((task) => {
+        return (
+          task.teamMemberNum == data.teamMemberNum && task.completion < 100
+        );
+      });
+      setTasks(result);
     } else if (data.teamLeader) {
       result = tasks.filter((task) => task.teamLeader == data.teamLeader);
       setTasks(result);
@@ -57,10 +97,9 @@ export default function FilterSidebar() {
     } else if (data.teamMemberNum) {
       result = tasks.filter((task) => task.teamMemberNum == data.teamMemberNum);
       setTasks(result);
-
       // Condition for complete or incomplete radio options
     } else if (data.completion == "complete") {
-      result = tasks.filter((task) => task.completion == "100");
+      result = tasks.filter((task) => task.completion == 100);
       setTasks(result);
     } else if (data.completion == "incomplete") {
       result = tasks.filter((task) => task.completion < 100);
@@ -105,10 +144,11 @@ export default function FilterSidebar() {
             <option value="" selected>
               Seletect Leader
             </option>
-            {tasks.length > 0 ?
-              tasks.map((task) => (
-                <option value={task.teamLeader}>{task.teamLeader}</option>
-              )) : ''}
+            {tasks.length > 0
+              ? tasks.map((task) => (
+                  <option value={task.teamLeader}>{task.teamLeader}</option>
+                ))
+              : ""}
           </select>
         </div>
         <div className="mb-5">
