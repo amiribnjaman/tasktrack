@@ -9,10 +9,11 @@ import { toast } from "react-toastify";
 export default function page() {
   const [deleteConfirmationCard, setdeleteConfirmationCard] = useState(false);
   const [deleteConfirmationId, setdeleteConfirmationId] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useRouter();
 
   // SERACH CONTEXT VALUE
-  const { setReload, reload, tasks } = useContext(SearchContext);
+  const { setReload, reload, tasks, setTasks } = useContext(SearchContext);
 
   // Check token and if haven't the token then push to login page
   let token;
@@ -24,6 +25,16 @@ export default function page() {
       navigate.push("/login");
     }
   }, []);
+
+  // Handle REFRESH button
+  const handleRefresh = () => {
+    setLoading(!loading);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    setReload(!reload);
+    setTasks(tasks);
+  };
 
   // Handle delete a task
   const handleDeleteTask = () => {
@@ -89,7 +100,29 @@ export default function page() {
       <div>
         {/* Header */}
         <div className="flex relative items-center justify-between mb-10">
-          <h3 className="text-xl">Tasks</h3>
+          <div className="flex items-center gap-5">
+            <h3 className="text-xl">Tasks</h3>
+            {loading ? (
+              <span>...</span>
+            ) : (
+              <button onClick={handleRefresh} className="mt-1 cursor-pointer">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1"
+                  stroke="currentColor"
+                  class="w-5 h-5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
           <button
             onClick={() => navigate.push("/create-task")}
             className="bg-[#2565e6] px-4 py-2 rounded-lg text-white"

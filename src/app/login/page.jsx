@@ -48,7 +48,6 @@ export default function page() {
             // Set token into localstorage
             localStorage.setItem("Token", data.token);
             toast.success("You have logedin successfully!");
-
             setReload(!reload);
             // Redirect user to My Task
             navigate.push("/my-task");
