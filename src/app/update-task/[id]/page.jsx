@@ -26,16 +26,17 @@ export default function page({ params }) {
   const [task, setTask] = useState({});
 
   // Check token and if haven't the token then push to login page
-  let token;
-  if (typeof window !== "undefined") {
-    token = localStorage.getItem("Token");
-  }
-  if (!token) {
-    navigate.push("/login");
-  }
 
+  let token;
   // Load task data
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      token = localStorage.getItem("Token");
+    }
+    if (!token) {
+      navigate.push("/login");
+    }
+    
     fetch(`https://tasktrack-87zm.onrender.com/api/task/${id}`, {
       method: "GET",
       headers: {

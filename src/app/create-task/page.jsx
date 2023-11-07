@@ -3,18 +3,21 @@
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function page() {
   const navigate = useRouter();
 
   // Check token and if haven't the token then push to login page
   let token;
-  if (typeof window !== "undefined") {
-    token = localStorage.getItem("Token");
-  }
-  if (!token) {
-    navigate.push("/login");
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      token = localStorage.getItem("Token");
+    }
+    if (!token) {
+      navigate.push("/login");
+    }
+  }, []);
 
   const {
     register,
