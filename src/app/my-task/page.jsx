@@ -288,7 +288,7 @@ export default function page() {
             {currentPage == 1 ? (
               <button
                 onClick={prevPage}
-                className=" btn btn-sm capitalize text-slate-400 mr-2 font-normal cursor-not-allowed"
+                className="border px-3 py-0 rounded-full text-[11px] font-semibold btn btn-sm capitalize text-slate-300 mr-2 font-normal cursor-not-allowed"
                 disabled
               >
                 Previous
@@ -296,7 +296,7 @@ export default function page() {
             ) : (
               <button
                 onClick={prevPage}
-                className=" btn btn-sm mr-2 capitalize  font-normal"
+                className="border border-slate-500/75 text-[11px] text-slate-500 font-semibold px-3 py-0 rounded-full btn btn-sm mr-2 capitalize"
               >
                 Previous
               </button>
@@ -304,10 +304,10 @@ export default function page() {
             {numbers.map((n) => (
               <button
                 onClick={() => changeCurPage(n)}
-                className={`py-[4px] px-[5px] rounded-full ${
+                className={`py-[4px] rounded-full ${
                   currentPage === n
                     ? "px-[12px] text-blue-600  bg-[#e8eefa] "
-                    : ""
+                    : "px-[5px]"
                 } join-item btn btn-sm`}
               >
                 {n}
@@ -316,7 +316,7 @@ export default function page() {
             {numbers.length === currentPage ? (
               <button
                 onClick={nextPage}
-                className={`btn capitalize font-normal btn-sm text-slate-400 ml-2 font-normal cursor-not-allowed`}
+                className={`border px-3 py-0 rounded-full btn capitalize text-[11px] text-slate-400 font-semibold btn-sm text-slate-400 ml-2 cursor-not-allowed`}
                 disabled
               >
                 Next
@@ -324,7 +324,7 @@ export default function page() {
             ) : (
               <button
                 onClick={nextPage}
-                className={`btn capitalize font-normal btn-sm`}
+                className={`border px-3 py-0 border-slate-500/75 rounded-full btn capitalize text-[11px] text-slate-500 font-semibold btn-sm`}
               >
                 Next
               </button>
