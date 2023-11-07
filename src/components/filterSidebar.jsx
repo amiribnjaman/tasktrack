@@ -13,13 +13,13 @@ export default function FilterSidebar() {
   });
 
   // Check token and if haven't the token then push to login page
-  let token;
-  if (typeof window !== "undefined") {
-    token = localStorage.getItem("Token");
-  }
-  if (!token) {
-    navigate.push("/login");
-  }
+  // let token;
+  // if (typeof window !== "undefined") {
+  //   token = localStorage.getItem("Token");
+  // }
+  // if (!token) {
+  //   navigate.push("/login");
+  // }
 
   const {
     register,
@@ -106,7 +106,7 @@ export default function FilterSidebar() {
               Seletect Leader
             </option>
             {tasks.length > 0 ?
-              tasks?.map((task) => (
+              tasks.map((task) => (
                 <option value={task.teamLeader}>{task.teamLeader}</option>
               )) : ''}
           </select>
@@ -127,7 +127,7 @@ export default function FilterSidebar() {
               Select Member
             </option>
             {tasks.length > 0
-              ? tasks?.map((task) => (
+              ? tasks.map((task) => (
                   <option value={task.teamMemberNum}>
                     {task.teamMemberNum}
                   </option>

@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 // const getTask = async (id) => {
-//   let data = await fetch(`http://localhost:4000/api/task/${id}`);
+//   let data = await fetch(`https://tasktrack-87zm.onrender.com/api/task/${id}`);
 //   data = await data.json();
 //   return data;
 // };
@@ -36,7 +36,7 @@ export default function page({ params }) {
 
   // Load task data
   useEffect(() => {
-    fetch(`http://localhost:4000/api/task/${id}`, {
+    fetch(`https://tasktrack-87zm.onrender.com/api/task/${id}`, {
       method: "GET",
       headers: {
         authorization: "Bearer " + localStorage.getItem("Token"),
@@ -75,7 +75,7 @@ export default function page({ params }) {
     }
 
     if (data) {
-      fetch(`http://localhost:4000/api/task/${id}`, {
+      fetch(`https://tasktrack-87zm.onrender.com/api/task/${id}`, {
         method: "PATCH",
         headers: {
           authorization: "Bearer " + localStorage.getItem("Token"),

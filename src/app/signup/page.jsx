@@ -27,7 +27,7 @@ export default function page() {
   // Signup submit function
   const signUpSubmit = (data) => {
     if (data.name && data.email && data.password) {
-      fetch("http://localhost:4000/api/user/signup", {
+      fetch("https://tasktrack-87zm.onrender.com/api/user/signup", {
         method: "POST",
         headers: {
           "content-type": "application/json",

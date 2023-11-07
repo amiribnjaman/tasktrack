@@ -25,13 +25,16 @@ export default function page() {
 
   // Handle delete a task
   const handleDeleteTask = () => {
-    fetch(`http://localhost:4000/api/task/${deleteConfirmationId}`, {
-      method: "DELETE",
-      headers: {
-        authorization: "Bearer " + localStorage.getItem("Token"),
-        "content-type": "application/json",
-      },
-    })
+    fetch(
+      `https://tasktrack-87zm.onrender.com/api/task/${deleteConfirmationId}`,
+      {
+        method: "DELETE",
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("Token"),
+          "content-type": "application/json",
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         if (data.status == "204") {

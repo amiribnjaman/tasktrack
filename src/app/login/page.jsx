@@ -33,7 +33,7 @@ export default function page() {
   //Handle Login submit
   const loginSubmit = (data) => {
     if (data.email && data.password) {
-      fetch("http://localhost:4000/api/user/login", {
+      fetch("https://tasktrack-87zm.onrender.com/api/user/login", {
         method: "POST",
         headers: {
           "content-type": "application/json",
