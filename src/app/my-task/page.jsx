@@ -139,7 +139,7 @@ export default function page() {
 
         {/* Body */}
         {tasks.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 mt-6 gap-x-4 gap-y-8">
+          <div className="grid relative grid-cols-1 md:grid-cols-3 mt-6 gap-x-4 gap-y-8">
             {/* card */}
 
             {/*-------------- SINGLE CARD ---------------*/}
@@ -240,30 +240,31 @@ export default function page() {
                     <div
                       className={`${
                         deleteConfirmationCard ? "block" : "hidden"
-                      } fixed top-[20%] left-[33%] shadow bg-white w-[330px] text-center rounded py-3 h-[170px] flex flex-col justify-center`}
+                      } fixed z-50 left-[10%] top-[15%] md:left-[33%] shadow bg-white w-[330px] text-center rounded py-3 h-[170px] flex flex-col justify-center`}
                       style={{ backdropFilter: "blur(8px)" }}
                     >
                       <div>
-                        <h5 className="text-[20px] font-semibold">
-                          Are you sure?{" "}
+                        <h5 className="text-[18px] font-semibold">
+                          Are you sure
                         </h5>
-                        <h5 className="text-[20px] font-semibold">
+                        <h5 className="text-[18px] font-semibold">
                           You want to Delete this?
                         </h5>
                       </div>
                       <div className="flex gap-3 justify-center">
-                        <button
-                          onClick={() => handleDeleteTask()}
-                          className="bg-blue-600 px-7 py-2 mt-3 rounded-lg text-white"
-                        >
-                          Yes!
-                        </button>
                         <button
                           onClick={() => setdeleteConfirmationCard(false)}
                           className="bg-red-600 px-5 py-2 mt-3 rounded-lg text-white"
                         >
                           Cancel
                         </button>
+                        <button
+                          onClick={() => handleDeleteTask()}
+                          className="bg-blue-600 px-7 py-2 mt-3 rounded-lg text-white"
+                        >
+                          Yes, I'm!
+                        </button>
+                        
                       </div>
                     </div>
                   </div>
