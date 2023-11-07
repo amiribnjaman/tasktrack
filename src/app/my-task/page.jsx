@@ -240,7 +240,7 @@ export default function page() {
                     <div
                       className={`${
                         deleteConfirmationCard ? "block" : "hidden"
-                      } fixed z-50 left-[10%] top-[15%] md:left-[33%] shadow bg-white w-[330px] text-center rounded py-3 h-[170px] flex flex-col justify-center`}
+                      } fixed z-50 left-[7%] top-[15%] md:left-[33%] shadow bg-white w-[330px] text-center rounded py-3 h-[170px] flex flex-col justify-center`}
                       style={{ backdropFilter: "blur(8px)" }}
                     >
                       <div>
@@ -254,17 +254,16 @@ export default function page() {
                       <div className="flex gap-3 justify-center">
                         <button
                           onClick={() => setdeleteConfirmationCard(false)}
-                          className="bg-red-600 px-5 py-2 mt-3 rounded-lg text-white"
+                          className="bg-slate-600 px-5 py-2 mt-3 rounded-lg text-white"
                         >
                           Cancel
                         </button>
                         <button
                           onClick={() => handleDeleteTask()}
-                          className="bg-blue-600 px-7 py-2 mt-3 rounded-lg text-white"
+                          className="bg-red-600 px-7 py-2 mt-3 rounded-lg text-white"
                         >
                           Yes, I'm!
                         </button>
-                        
                       </div>
                     </div>
                   </div>

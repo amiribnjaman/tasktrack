@@ -86,17 +86,17 @@ export default function TopNavbar({ tasks, setTasks, oldData }) {
               showSearchCard ? "block" : "hidden"
             } shadow-lg rounded-md w-full md:w-[350px] h-[150px] text-center flex flex-col justify-center items-center absolute top-[60px] md:top-[50px] left-0 md:left-[20%] bg-white border px-2`}
           >
-            <div className="flex items-center px-2 gap-1">
+            <div className="flex items-center justify-center px-2 gap-1">
               <input
                 type="text"
-                className="bg-slate-100 rounded px-4 py-1"
+                className="bg-slate-100 w-[75%] rounded px-4 py-1"
                 placeholder="Search by Task title"
                 onChange={(e) => setSearch(e.target.value)}
                 value={search}
               />
               <button
                 onClick={handleSearch}
-                className="bg-blue-500 py-1 px-1 rounded"
+                className="bg-blue-500 w-[13%] text-center py-1 px-1 rounded"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -117,13 +117,13 @@ export default function TopNavbar({ tasks, setTasks, oldData }) {
             <div className="flex gap-3 items-center mt-3">
               <button
                 onClick={() => setShowSearchCard(false)}
-                className="bg-red-500 px-4 py-1 rounded text-white"
+                className="bg-slate-500 px-4 py-1 rounded text-white"
               >
                 Cancel
               </button>
               <button
                 onClick={handleRefresh}
-                className="bg-gray-500 px-4 py-1 rounded text-white"
+                className="bg-green-800 px-4 py-1 rounded text-white"
               >
                 Refresh
               </button>
