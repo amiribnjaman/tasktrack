@@ -288,7 +288,7 @@ export default function page() {
             {currentPage == 1 ? (
               <button
                 onClick={prevPage}
-                className=" btn btn-sm capitalize text-slate-500 mr-2 font-normal cursor-not-allowed"
+                className=" btn btn-sm capitalize text-slate-400 mr-2 font-normal cursor-not-allowed"
                 disabled
               >
                 Previous
@@ -304,9 +304,9 @@ export default function page() {
             {numbers.map((n) => (
               <button
                 onClick={() => changeCurPage(n)}
-                className={`py-[5px] px-[5px] rounded-full ${
+                className={`py-[4px] px-[5px] rounded-full ${
                   currentPage === n
-                    ? "text-blue-600 px-[14px] bg-[#e8eefa] "
+                    ? "px-[12px] text-blue-600  bg-[#e8eefa] "
                     : ""
                 } join-item btn btn-sm`}
               >
@@ -316,7 +316,7 @@ export default function page() {
             {numbers.length === currentPage ? (
               <button
                 onClick={nextPage}
-                className={`btn capitalize font-normal btn-sm text-slate-500 ml-2 font-normal cursor-not-allowed`}
+                className={`btn capitalize font-normal btn-sm text-slate-400 ml-2 font-normal cursor-not-allowed`}
                 disabled
               >
                 Next
