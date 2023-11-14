@@ -1,6 +1,6 @@
 "use client";
 
-import { SearchContext } from "@/app/context/SearchContext";
+import { SearchContext } from "@/context/SearchContext";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -36,7 +36,7 @@ export default function page({ params }) {
     if (!token) {
       navigate.push("/login");
     }
-    
+
     fetch(`https://tasktrack-87zm.onrender.com/api/task/${id}`, {
       method: "GET",
       headers: {

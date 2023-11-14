@@ -6,7 +6,7 @@ import FilterSidebar from "@/components/filterSidebar";
 import Footer from "@/components/footer";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
-import { SearchContext } from "@/app/context/SearchContext";
+import { SearchContext } from "@/context/SearchContext";
 
 export default function LayoutComponent({ children }) {
   // Those are declare here to props drillings (awful)

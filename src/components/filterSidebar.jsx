@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useContext } from "react";
-import { SearchContext } from "../app/context/SearchContext";
+import { SearchContext } from "../context/SearchContext";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 

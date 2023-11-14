@@ -3,7 +3,7 @@
 import React, { useContext, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { SearchContext } from "@/app/context/SearchContext";
+import { SearchContext } from "@/context/SearchContext";
 
 export default function TopNavbar({ tasks, setTasks, oldData }) {
   const [showSearchCard, setShowSearchCard] = useState(false);

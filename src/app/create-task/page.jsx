@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
-import { SearchContext } from "../context/SearchContext";
+import { SearchContext } from "../../context/SearchContext";
 
 export default function page() {
   const navigate = useRouter();
@@ -47,7 +47,7 @@ export default function page() {
         .then((data) => {
           if (data.status == "201") {
             toast.success("A Task created succefully!");
-            setReload(!reload)
+            setReload(!reload);
           } else {
             toast.error(data.msg);
           }
