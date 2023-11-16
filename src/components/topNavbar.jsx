@@ -4,8 +4,9 @@ import React, { useContext, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { SearchContext } from "@/context/SearchContext";
+import { useSelector, useDispatch } from "react-redux";
 
-export default function TopNavbar({ tasks, setTasks, oldData }) {
+export default function TopNavbar() {
   const [showSearchCard, setShowSearchCard] = useState(false);
   const pathname = usePathname();
   const [search, setSearch] = useState("");
@@ -14,11 +15,19 @@ export default function TopNavbar({ tasks, setTasks, oldData }) {
   const navigate = useRouter();
   const [logoutBtn, setLogoutBtn] = useState(false);
 
+  const [oldData, setOldData] = useState([]);
+
   // SERACH CONTEXT VALUE
   const { setReload, reload } = useContext(SearchContext);
 
+  // State
+  const { task: tasks } = useSelector((state) => state.taskReducer);
+  const dispatch = useDispatch();
+  console.log(tasks);
+
   // Handle Search operation function
   const handleSearch = (e) => {
+    setOldData(tasks)
     let result;
     if (search) {
       // Filter out the task which match with search value
@@ -28,8 +37,9 @@ export default function TopNavbar({ tasks, setTasks, oldData }) {
           : task.taskTitle.toLowerCase().includes(search.toLowerCase());
       });
     }
+
     // Send filtered value
-    setTasks(result);
+    dispatch({ type: "SEARCH", payload: { result } });
     // Reset search fields
     setSearch("");
     setShowSearchCard(false);
@@ -37,8 +47,7 @@ export default function TopNavbar({ tasks, setTasks, oldData }) {
 
   // Handle Refresh function
   const handleRefresh = () => {
-    setTasks(oldData);
-    setShowSearchCard(false);
+    dispatch({ type: "SET_TASK", payload: oldData });
   };
 
   // checking token for login/logout operation

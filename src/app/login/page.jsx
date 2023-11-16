@@ -9,7 +9,7 @@ import { SearchContext } from "../../context/SearchContext";
 
 export default function page() {
   const navigate = useRouter();
-  const { setReload, reload } = useContext(SearchContext);
+  // const { setReload, reload } = useContext(SearchContext);
 
   // Check token and if have the token then push to my task page
   let token;
@@ -48,7 +48,7 @@ export default function page() {
             // Set token into localstorage
             localStorage.setItem("Token", data.token);
             toast.success("You have logedin successfully!");
-            setReload(!reload);
+            // setReload(!reload);
             // Redirect user to My Task
             navigate.push("/my-task");
           } else {

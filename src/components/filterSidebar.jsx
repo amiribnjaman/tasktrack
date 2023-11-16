@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react";
 import { SearchContext } from "../context/SearchContext";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function FilterSidebar() {
   const navigate = useRouter();
@@ -11,8 +12,10 @@ export default function FilterSidebar() {
     teamMemberNum: "",
     completion: "",
   });
+
+    const { task: tasks } = useSelector((state) => state.taskReducer);
   // SERACH CONTEXT VALUE
-  const { tasks, setTasks, oldData, setOldData } = useContext(SearchContext);
+  // const { tasks, setTasks, oldData, setOldData } = useContext(SearchContext);
 
   // Check token and if haven't the token then push to login page
   // let token;
@@ -144,7 +147,7 @@ export default function FilterSidebar() {
             <option value="" selected>
               Seletect Leader
             </option>
-            {tasks.length > 0
+            {tasks?.length > 0
               ? tasks.map((task) => (
                   <option value={task.teamLeader}>{task.teamLeader}</option>
                 ))

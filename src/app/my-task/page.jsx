@@ -1,30 +1,51 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useContext } from "react";
-import { SearchContext } from "../../context/SearchContext";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
 
-export default function page() {
+export default function taskPage() {
   const [deleteConfirmationCard, setdeleteConfirmationCard] = useState(false);
   const [deleteConfirmationId, setdeleteConfirmationId] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useRouter();
+  const [reload, setReload] = useState(false);
 
-  // SERACH CONTEXT VALUE
-  const { setReload, reload, tasks, setTasks } = useContext(SearchContext);
+  const [oldData, setOldData] = useState([])
 
-  // Check token and if haven't the token then push to login page
-  let token;
+  // State
+  const { task: tasks } = useSelector((state) => state.taskReducer);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      token = localStorage.getItem("Token");
-    }
-    if (!token) {
-      navigate.push("/login");
-    }
-  }, [reload]);
+    let token;
+      if (typeof window !== "undefined") {
+        token = localStorage.getItem("Token");
+      }
+      if (!token) {
+        navigate.push("/login");
+      }
+    fetch("https://tasktrack-87zm.onrender.com/api/task", {
+      method: "GET",
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("Token"),
+        "content-type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // setTasks(data);
+        // setOldData(data);
+        setOldData(data)
+        dispatch({ type: "SET_TASK", payload: data });
+      });
+  }, []);
+
+  // return
+
+
 
   // Handle REFRESH button
   const handleRefresh = () => {
@@ -33,7 +54,7 @@ export default function page() {
       setLoading(false);
     }, 2000);
     setReload(!reload);
-    setTasks(tasks);
+    dispatch({ type: "SET_TASK", payload: oldData });
   };
 
   // Handle delete a task

@@ -3,6 +3,10 @@ import "./globals.css";
 import LayoutComponent from "./layoutComponent";
 import "react-toastify/dist/ReactToastify.css";
 
+// Store
+import store from "@/redux/store";
+import { Provider } from "react-redux";
+
 export const metadata = {
   title: "Dasboard - TaskTrack",
   description: "TaskTrack is a task management application",

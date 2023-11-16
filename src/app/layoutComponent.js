@@ -8,6 +8,10 @@ import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import { SearchContext } from "@/context/SearchContext";
 
+// Store
+import store from "@/redux/store";
+import { Provider } from 'react-redux'
+
 export default function LayoutComponent({ children }) {
   // Those are declare here to props drillings (awful)
   const [searchValue, setSearchValue] = useState("");
@@ -15,39 +19,41 @@ export default function LayoutComponent({ children }) {
   const [tasks, setTasks] = useState([]);
   const [oldData, setOldData] = useState([]);
 
-  useEffect(() => {
-    fetch("https://tasktrack-87zm.onrender.com/api/task", {
-      method: "GET",
-      headers: {
-        authorization: "Bearer " + localStorage.getItem("Token"),
-        "content-type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setTasks(data);
-        setOldData(data);
-      });
-  }, [reload]);
+  // useEffect(() => {
+  //   fetch("https://tasktrack-87zm.onrender.com/api/task", {
+  //     method: "GET",
+  //     headers: {
+  //       authorization: "Bearer " + localStorage.getItem("Token"),
+  //       "content-type": "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setTasks(data);
+  //       setOldData(data);
+  //     });
+  // }, [reload]);
 
   return (
     <div className="md:flex ">
-      <aside className="md:block hidden w-64 h-full shadow-md">
-        <Sidebar />
-      </aside>
+      <Provider
+        // value={{ reload, setReload, tasks, setTasks, oldData, setOldData }}
+        store={store}
+      >
+        <aside className="md:block hidden w-64 h-full shadow-md">
+          <Sidebar />
+        </aside>
 
-      <div className="bg-[#F8F7FA] md:w-[80%] h-full">
-        <div className="px-6 relative">
-          {/* Top Navbar  */}
-          <TopNavbar
-            setReload={setReload}
-            tasks={tasks}
-            setTasks={setTasks}
-            oldData={oldData}
-          />
-          <SearchContext.Provider
-            value={{ reload, setReload, tasks, setTasks, oldData, setOldData }}
-          >
+        <div className="bg-[#F8F7FA] md:w-[80%] h-full">
+          <div className="px-6 relative">
+            {/* Top Navbar  */}
+            <TopNavbar
+              setReload={setReload}
+              tasks={tasks}
+              setTasks={setTasks}
+              oldData={oldData}
+            />
+
             <div className="min-h-[85vh] md:flex gap-6 justify-between">
               <div className="mt-4 p-4 pb-6 md:w-[65%] border">
                 <ToastContainer position="top-center" />
@@ -58,11 +64,12 @@ export default function LayoutComponent({ children }) {
                 <FilterSidebar />
               </aside>
             </div>
-          </SearchContext.Provider>
-          {/* Footer */}
-          <Footer />
+
+            {/* Footer */}
+            <Footer />
+          </div>
         </div>
-      </div>
+      </Provider>
     </div>
   );
 }
