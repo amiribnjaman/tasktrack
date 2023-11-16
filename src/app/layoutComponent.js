@@ -5,34 +5,12 @@ import TopNavbar from "@/components/topNavbar";
 import FilterSidebar from "@/components/filterSidebar";
 import Footer from "@/components/footer";
 import { ToastContainer } from "react-toastify";
-import { useEffect, useState } from "react";
-import { SearchContext } from "@/context/SearchContext";
 
-// Store
+// Redux Store and provider
 import store from "@/redux/store";
 import { Provider } from 'react-redux'
 
 export default function LayoutComponent({ children }) {
-  // Those are declare here to props drillings (awful)
-  const [searchValue, setSearchValue] = useState("");
-  const [reload, setReload] = useState(false);
-  const [tasks, setTasks] = useState([]);
-  const [oldData, setOldData] = useState([]);
-
-  // useEffect(() => {
-  //   fetch("https://tasktrack-87zm.onrender.com/api/task", {
-  //     method: "GET",
-  //     headers: {
-  //       authorization: "Bearer " + localStorage.getItem("Token"),
-  //       "content-type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setTasks(data);
-  //       setOldData(data);
-  //     });
-  // }, [reload]);
 
   return (
     <div className="md:flex ">
@@ -48,10 +26,6 @@ export default function LayoutComponent({ children }) {
           <div className="px-6 relative">
             {/* Top Navbar  */}
             <TopNavbar
-              setReload={setReload}
-              tasks={tasks}
-              setTasks={setTasks}
-              oldData={oldData}
             />
 
             <div className="min-h-[85vh] md:flex gap-6 justify-between">
